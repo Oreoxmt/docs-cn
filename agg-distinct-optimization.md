@@ -5,6 +5,8 @@ aliases: ['/docs-cn/dev/agg-distinct-optimization/']
 
 # Distinct 优化
 
+<!--Test-->
+
 本文档介绍可用于 `DISTINCT` 的优化，包括简单 `DISTINCT` 和聚合函数 `DISTINCT` 的优化。
 
 ## 简单 DISTINCT
