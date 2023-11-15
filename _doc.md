@@ -1,11 +1,11 @@
 ---
-title: 'TiDB Release Notes: Changes from v7.2.0 to v7.5.0'
+title: 'TiDB Release Notes：从 v7.2.0 到 v7.5.0 的变更'
 author: PingCAP
 date: 20231123
 abstract: |
-   This document contains the release notes for TiDB [v7.2.0-DMR](https://docs.pingcap.com/tidb/v7.2), [v7.3.0-DMR](https://docs.pingcap.com/tidb/v7.3), [v7.4.0-DMR](https://docs.pingcap.com/tidb/v7.4), and [v7.5.0-LTS](https://docs.pingcap.com/tidb/stable). When you upgrade from v7.1.x to v7.5.0, you can refer to this document for a thorough overview of new features, compatibility changes, improvements, and bug fixes.
+   本文档包含 TiDB [v7.2.0-DMR](https://docs.pingcap.com/zh/tidb/v7.2)、[v7.3.0-DMR](https://docs.pingcap.com/zh/tidb/v7.3)、[v7.4.0-DMR](https://docs.pingcap.com/zh/tidb/v7.4) 和 [v7.5.0-LTS](https://docs.pingcap.com/zh/tidb/stable) 的 release notes。当你从 v7.1.x 升级到 v7.5.0 时，你可以参考本文档，以全面了解这些版本的新功能、兼容性变更、改进和错误修复。
 
-   For detailed guidance and additional resources regarding TiDB v7.5.0, see [TiDB Documentation](https://docs.pingcap.com/tidb/stable).
+   关于 TiDB v7.5.0 的详细信息和使用文档，请参考 [TiDB 文档](https://docs.pingcap.com/zh/tidb/stable)。
 ---
 
 # TiDB 7.5.0 Release Notes
