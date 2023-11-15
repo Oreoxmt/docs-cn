@@ -1,0 +1,171 @@
+
+<table>
+    <thead>
+      <tr>
+        <th>分类</th>
+        <th>功能</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>可扩展性与性能</td>
+        <td>支持并行运行多个 <code>ADD INDEX</code> 语句 {/* tw@ran-huang */}</td>
+        <td>与分布式和并行 DDL 任务不同，在该功能中，原来为同步运行的任务可以变为并发运行。以前同时运行 DDL 语句 X 和 Y 需要花费 X 的时间 + Y 的时间，并发运行后，DDL 总耗时显著减少了。</td>
+      </tr>
+      <tr>
+        <td rowspan="3">稳定性与高可用</td>
+        <td><a href="https://docs.pingcap.com/tidb/v7.5/tidb-global-sort" target="_blank">Global sort</a> optimization {/* tw@ran-huang */}</td>
+        <td>Laying the groundwork with the <a href="https://docs.pingcap.com/tidb/v7.5/tidb-distributed-execution-framework" target="_blank">distributed framework</a> in v7.2, TiDB introduces global sorting to eliminate the unnecessary I/O, CPU, and memory spikes caused from temporarily out of order data during data re-organization tasks. The global sorting will take advantage of external shared object storage (S3 in this first iteration) to store intermediary files during the job, adding flexibility and cost savings.Operations like ADD INDEX and IMPORT INTO will be faster, more resilient, more stable, more flexible, and cost less to run.</td>
+      </tr>
+      <tr>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control#管理后台任务" target="_blank">资源管控</a>支持自动管理后台任务（实验特性） {/* tw@Oreoxmt */}</td>
+        <td>从 v7.1.0 开始，<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control#use-resource-control-to-achieve-resource-isolation" target="_blank">资源管控</a>成为正式功能，该特性有助于缓解不同工作负载间的资源与存储访问干扰。TiDB v7.4.0 将此资源控制应用于后台任务。资源管控可以识别和管理后台任务，例如自动收集统计信息、备份和恢复、TiDB Lightning 批量数据导入以及在线 DDL。未来，所有后台任务都将纳入资源管控。</td>
+      </tr>
+      <tr>
+        <td>资源组支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control#管理资源消耗超出预期的查询-runaway-queries">管理资源消耗超出预期的查询</a>（实验特性）{/* tw@hfxsd */}</td>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control" target="_blank">资源管控 (Resource Group)</a> 是一个通过资源组 (Resource Group) 对工作负载进行资源隔离的框架，但它并不调用单个查询如何影响每个组内的工作。TiDB v7.2.0 引入了管控资源消耗超出预期的查询 (Runaway Queries)，你可以控制 TiDB 如何识别和处理每个资源组的查询。根据需要，长时间运行的查询可能会被终止或节流，你可以通过准确的 SQL test、SQL Digest 或其 Plan Digest来识别查询。在 TiDB v7.3.0，你可以主动监视已知的不良查询，类似于数据库级别的 SQL Blocklist。</td>
+      </tr>
+      <tr>
+        <td>SQL</td>
+        <td>MySQL 8.0 兼容性 {/* tw@Oreoxmt */}</td>
+        <td>MySQL 8.0 的默认字符集为 utf8mb4，其默认排序规则是 <code>utf8mb4_0900_ai_ci</code>。TiDB v7.4.0 增强了与 MySQL 8.0 的兼容性。现在你可以更轻松地将在 MySQL 8.0 中使用默认排序规则创建的数据库迁移或复制到 TiDB。</td>
+      </tr>
+      <tr>
+        <td rowspan="3">数据库管理与可观测性</td>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.5/sql-statement-import-into"><code>IMPORT INTO</code></a> 语句集成 TiDB Lightning 物理导入模式的能力 {/* tw@qiancai */}</td>
+        <td>在 v7.2 之前，如需基于文件系统进行数据导入，你需要安装 <a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-lightning-overview">TiDB Lightning</a> 并使用其物理导入模式。目前，该功能已集成到 <code>IMPORT INTO</code> 语句中，你可以使用此语句快速导入数据，而无需安装任何额外的工具。该语句还支持新的 <a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-distributed-execution-framework" target="_blank">分布式执行框架</a> 和 <a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-global-sort" target="_blank">全局排序</a> 功能，提升了大规模数据导入时的效率和稳定性。</td>
+      </tr>
+      <tr>
+        <td>选择<a href="https://docs.pingcap.com/zh/tidb/v7.5/system-variables#tidb_service_scope-从-v740-版本开始引入" target="_blank">适用的 TiDB 节点</a>来并行执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> SQL 语句 (GA) {/* tw@hfxsd */}</td>
+        <td>你可以选择在现有 TiDB 节点、或者新增 TiDB 节点执行 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> SQL 语句。该方法可以实现与其他 TiDB 节点的资源隔离，确保在执行上述语句时的最佳性能，并避免对已有业务造成性能影响。在 v7.5.0 中，该功能正式 GA。</td>
+      </tr>
+      <tr>
+        <td>DDL 任务支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/ddl-introduction#ddl-相关的命令介绍">暂停和恢复操作</a> {/* tw@ran-huang */}</td>
+        <td>添加索引可能会消耗大量资源并影响在线流量。即使在资源组中进行了限制，或对标记的节点进行了隔离，你仍然可能需要在紧急情况下暂停这些任务。从 v7.2 开始，TiDB 原生支持同时暂停任意数量的后台任务，释放所需的资源，无需取消或重启任务。</td>
+      </tr>
+    </tbody>
+</table>
+
+
+<table>
+    <thead>
+      <tr>
+        <th>分类</th>
+        <th>功能</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="3">稳定性与高可用</td>
+        <td>引入<a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-global-sort" target="_blank">全局排序能力</a>，提升<code>IMPORT INTO</code>和<code>ADD INDEX</code>任务的性能和稳定性（实验特性）</td>
+        <td>在 v7.4.0 以前，使用<a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-distributed-execution-framework" target="_blank">分布式并行执行框架</a>执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> 等任务时，只能对部分数据进行局部排序。这导致 TiKV 需要采取额外操作，并且在将数据导入到 TiKV 之前，TiDB 节点还需要为其分配本地磁盘空间以进行排序。<br/>随着 v7.4.0 引入全局排序特性，可以将数据暂时存储在外部存储（如 S3）中进行全局排序后再导入到 TiKV 中。这一改进降低了 TiKV 对资源的额外消耗，并显著提高了 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> 等操作的性能和稳定性。</td>
+      </tr>
+      <tr>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-resource-control#管理后台任务" target="_blank">资源管控</a>支持自动管理后台任务（实验特性）</td>
+        <td>从 v7.1.0 开始，资源管控成为正式功能，该特性有助于缓解不同工作负载间的资源与存储访问干扰。TiDB v7.4.0 将此资源控制应用于后台任务。资源管控可以识别和管理后台任务，例如自动收集统计信息、备份和恢复、TiDB Lightning 批量数据导入以及在线 DDL。未来，所有后台任务都将纳入资源管控。</td>
+      </tr>
+      <tr>
+        <td>TiFlash 支持<a href="https://docs.pingcap.com/zh/tidb/v7.4/tiflash-disaggregated-and-s3" target="_blank">存储计算资源分离和 S3 共享存储</a> (GA) </td>
+        <td>TiFlash 存算分离架构和 S3 共享存储成为正式功能：
+          <ul>
+            <li>支持分离 TiFlash 的存储和计算资源，提升 HTAP 资源的弹性能力。</li>
+            <li>支持基于 S3 的存储引擎，以更低的成本提供共享存储。</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2">SQL</td>
+        <td>TiDB 支持完整的<a href="https://docs.pingcap.com/zh/tidb/v7.4/partitioned-table#将分区表转换为非分区表" target="_blank">分区类型管理功能</a> </td>
+        <td>在 v7.4.0 之前，Range/List 分区表支持分区管理操作包括 <code>TRUNCATE</code>、<code>EXCHANGE</code>、<code>ADD</code>、<code>DROP</code>、<code>REORGANIZE</code> 等，Hash/Key 分区表支持分区管理操作包括 <code>ADD</code> 和 <code>COALESCE</code> 等。
+        <p>现在 TiDB 新增支持了以下分区类型管理操作：</p>
+        <ul>
+            <li>将分区表转换为非分区表</li>
+            <li>对现有的非分区表进行分区</li>
+            <li>修改现有分区表的分区类型</li>
+          </ul>
+        </td>
+      </tr>
+      <tr>
+        <td>MySQL 8.0 兼容性：支持<a href="https://docs.pingcap.com/zh/tidb/v7.4/character-set-and-collation#支持的字符集和排序规则" target="_blank">排序规则 <code>utf8mb4_0900_ai_ci</code></a></td>
+        <td>MySQL 8.0 的一个显著变化是默认字符集更改为 utf8mb4，其默认排序规则是 <code>utf8mb4_0900_ai_ci</code>。TiDB v7.4.0 增强了与 MySQL 8.0 的兼容性。现在你可以更轻松地将在 MySQL 8.0 中使用默认排序规则创建的数据库迁移或复制到 TiDB。</td>
+      </tr>
+      <tr>
+        <td>数据库管理与可观测性</td>
+        <td>选择<a href="https://docs.pingcap.com/zh/tidb/v7.4/system-variables#tidb_service_scope-从-v740-版本开始引入" target="_blank">适用的 TiDB 节点</a>来并行执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> SQL 语句（实验特性）</td>
+        <td>你可以选择在现有 TiDB 节点、或者新增 TiDB 节点执行 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> SQL 语句。该方法可以实现与其他 TiDB 节点的资源隔离，确保在执行上述语句时的最佳性能，并避免对已有业务造成性能影响。</td>
+      </tr>
+    </tbody>
+</table>
+
+
+<table>
+    <thead>
+      <tr>
+        <th>分类</th>
+        <th>功能</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>可扩展性与性能</td>
+        <td>TiDB Lightning 支持 <a href="https://docs.pingcap.com/zh/tidb/v7.3/partitioned-raft-kv">Partitioned Raft KV</a>（实验特性）</td>
+        <td>TiDB Lightning 的数据导入服务支持新的 Partitioned Raft KV 架构，为 Partitioned Raft KV 在 TiDB 后续版本中 GA 做好准备。
+        </td>
+      </tr>
+      <tr>
+        <td rowspan="2">稳定性与高可用</td>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/tidb-lightning-physical-import-mode-usage#冲突数据检测">TiDB Lightning 引入冲突数据的自动检测和处理机制</a></td>
+        <td>TiDB Lightning 物理导入模式支持新版本的冲突检测机制，支持在遇到数据冲突时替换 (<code>replace</code>) 或忽略 (<code>ignore</code>) 冲突数据的语义。TiDB Lightning 会自动处理冲突数据，同时提高了冲突处理的性能。</td>
+      </tr>
+      <tr>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/tidb-resource-control#query-watch-语句说明">手动标记资源使用超出预期的查询</a>（实验特性）</td>
+        <td>查询耗费的时间有时会超出预期。通过资源组新增的 Runaway Queries 监控列表，你可以设置降低 Runaway Queries 的优先级或终止查询，从而更有效地管理查询。该功能允许算子在资源组级别通过匹配 SQL 文本、SQL digest 或执行计划标记查询，并对这些查询进行处理，从而更好地控制非预期的大型查询可能对集群产生的影响。</td>
+      </tr>
+      <tr>
+        <td>SQL</td>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/optimizer-hints">添加更多优化器提示，加强对算子的控制，提升查询稳定性</a></td>
+        <td>新增优化器提示：<code>NO_INDEX_JOIN()</code>、<code>NO_MERGE_JOIN()</code>、<code>NO_INDEX_MERGE_JOIN()</code>、<code>NO_HASH_JOIN()</code>、<code>NO_INDEX_HASH_JOIN()</code></td>
+      </tr>
+      <tr>
+        <td>数据库管理与可观测性</td>
+        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/sql-statement-show-analyze-status">显示统计信息收集的进度</a></td>
+        <td>支持使用 <code>SHOW ANALYZE STATUS</code> 语句或通过 <code>mysql.analyze_jobs</code> 系统表查看 <code>ANALYZE</code> 任务的进度。</td>
+      </tr>
+    </tbody>
+</table>
+
+
+<table>
+    <thead>
+      <tr>
+        <th>分类</th>
+        <th>功能</th>
+        <th>描述</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td rowspan="2">可扩展性与性能</td>
+        <td>资源组支持<a href="https://docs.pingcap.com/zh/tidb/v7.2/tidb-resource-control#管理资源消耗超出预期的查询-runaway-queries">管理资源消耗超出预期的查询</a>（实验特性）</td>
+        <td>通过此功能，你可以更细粒度地管理执行时间超时的查询，根据查询的不同类型实现不同的行为。符合指定阈值的查询将按照你的设置被降低优先级或者终止执行。
+        </td>
+      </tr>
+      <tr>
+        <td>TiFlash 支持 <a href="https://docs.pingcap.com/zh/tidb/v7.2/tiflash-pipeline-model">Pipeline 执行模型</a>（实验特性）</td>
+        <td>TiFlash 支持 Pipeline 执行模型，优化对线程资源的控制。</td>
+      </tr>
+      <tr>
+        <td rowspan="1">SQL</td>
+        <td>支持新的 SQL 语句 <a href="https://docs.pingcap.com/zh/tidb/v7.2/sql-statement-import-into"><code>IMPORT INTO</code></a>，可以通过 TiDB 进行数据导入（实验特性）</td>
+        <td>TiDB 引入了一个新的 SQL 语句 <code>IMPORT INTO</code>。该语句集成了 TiDB Lightning 的物理导入模式的能力，使你无需单独部署和管理 TiDB Lightning 即可导入数据文件到 TiDB 中。例如，通过该语句，你可以直接从 Amazon S3 或 Google Cloud Storage (GCS) 远程导入数据到 TiDB 中。</td>
+      </tr>
+      <tr>
+        <td rowspan="2">数据库管理与可观测性</td>
+        <td>DDL 任务支持<a href="https://docs.pingcap.com/zh/tidb/v7.2/ddl-introduction#ddl-相关的命令介绍">暂停和恢复操作</a>（实验特性）</td>
+        <td>该功能允许临时暂停资源密集型的 DDL 操作，例如索引创建，以节省资源并最小化对在线流量的影响。当资源许可时，你可以无缝恢复 DDL 任务，而无需取消和重新开始。该功能提高了资源利用率，改善了用户体验，并简化了 schema 更改过程。</td>
+      </tr>
+    </tbody>
+</table>
