@@ -222,10 +222,13 @@ select * from information_schema.inspection_rules where type='inspection';
 
 * 检测以下配置项的值是否符合预期。
 
-    |  组件  | 配置项 | 预期值 |
-    |  :----  | :----  |  :----  |
+    +------+--------------------+--------+
+    | 组件 | 配置项             | 预期值 |
+    +:=====+:===================+:=======+
     | TiDB | log.slow-threshold | 大于 0 |
-    | TiKV | raftstore.sync-log | true |
+    +------+--------------------+--------+
+    | TiKV | raftstore.sync-log | true   |
+    +------+--------------------+--------+
 
 ### version 诊断规则
 
@@ -255,15 +258,23 @@ DETAILS   | the cluster has 2 different tidb versions, execute the sql to see mo
 
 * 通过查询 [metrics schema](/metrics-schema.md) 数据库中相关的监控系统表，检测集群是否有出现以下比较严重的错误：
 
-    |  组件  | 错误名字 | 相关监控表 | 错误说明 |
-    |  ----  | ----  |  ----  |  ----  |
-    | TiDB | panic-count | tidb_panic_count_total_count | TiDB 出现 panic 错误 |
-    | TiDB | binlog-error | tidb_binlog_error_total_count | TiDB 写 binlog 时出现的错误 |
-    | TiKV | critical-error | tikv_critical_error_total_coun | TiKV 的 critical error |
-    | TiKV | scheduler-is-busy       | tikv_scheduler_is_busy_total_count | TiKV 的 scheduler 太忙，会导致 TiKV 临时不可用 |
-    | TiKV | coprocessor-is-busy | tikv_coprocessor_is_busy_total_count | TiKV 的 coprocessor 太忙 |
-    | TiKV | channel-is-full | tikv_channel_full_total_count | TiKV 出现 channel full 的错误 |
-    | TiKV | tikv_engine_write_stall | tikv_engine_write_stall | TiKV 出现写入 stall 的错误 |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | 组件 | 错误名字                | 相关监控表                           | 错误说明                                       |
+    +======+=========================+======================================+================================================+
+    | TiDB | panic-count             | tidb_panic_count_total_count         | TiDB 出现 panic 错误                           |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiDB | binlog-error            | tidb_binlog_error_total_count        | TiDB 写 binlog 时出现的错误                    |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiKV | critical-error          | tikv_critical_error_total_coun       | TiKV 的 critical error                         |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiKV | scheduler-is-busy       | tikv_scheduler_is_busy_total_count   | TiKV 的 scheduler 太忙，会导致 TiKV 临时不可用 |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiKV | coprocessor-is-busy     | tikv_coprocessor_is_busy_total_count | TiKV 的 coprocessor 太忙                       |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiKV | channel-is-full         | tikv_channel_full_total_count        | TiKV 出现 channel full 的错误                  |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
+    | TiKV | tikv_engine_write_stall | tikv_engine_write_stall              | TiKV 出现写入 stall 的错误                     |
+    +------+-------------------------+--------------------------------------+------------------------------------------------+
 
 * 通过查询 `metrics_schema.up` 监控表和 `CLUSTER_LOG` 系统表，检查是否有组件发生重启。
 
@@ -271,27 +282,47 @@ DETAILS   | the cluster has 2 different tidb versions, execute the sql to see mo
 
 `threshold-check` 诊断规则通过查询 [metrics schema](/metrics-schema.md) 数据库中相关的监控系统表，检测集群中以下指标是否超出阈值：
 
-|  组件  | 监控指标 | 相关监控表 | 预期值 |  说明  |
-|  :----  | :----  |  :----  |  :----  |  :----  |
-| TiDB | tso-duration              | pd_tso_wait_duration                | 小于 50 ms  |  获取事务 TSO 时间戳的等待耗时 |
-| TiDB | get-token-duration        | tidb_get_token_duration             | 小于 1 ms   |  查询获取 token 的耗时，相关的 TiDB 配置参数是 token-limit  |
-| TiDB | load-schema-duration      | tidb_load_schema_duration           | 小于 1 s    |  TiDB 更新表元信息的耗时 |
-| TiKV | scheduler-cmd-duration    | tikv_scheduler_command_duration     | 小于 0.1 s  |  TiKV 执行 KV cmd 请求的耗时 |
-| TiKV | handle-snapshot-duration  | tikv_handle_snapshot_duration       | 小于 30 s   |  TiKV 处理 snapshot 的耗时 |
-| TiKV | storage-write-duration    | tikv_storage_async_request_duration | 小于 0.1 s  |  TiKV 写入的延迟 |
-| TiKV | storage-snapshot-duration | tikv_storage_async_request_duration | 小于 50 ms  |  TiKV 获取 snapshot 的耗时 |
-| TiKV | rocksdb-write-duration    | tikv_engine_write_duration          | 小于 100 ms |  TiKV RocksDB 的写入延迟 |
-| TiKV | rocksdb-get-duration | tikv_engine_max_get_duration | 小于 50 ms |  TiKV RocksDB 的读取延迟 |
-| TiKV | rocksdb-seek-duration | tikv_engine_max_seek_duration | 小于 50 ms |  TiKV RocksDB 执行 seek 的延迟 |
-| TiKV | scheduler-pending-cmd-coun | tikv_scheduler_pending_commands  | 小于 1000 | TiKV 中被阻塞的命令数量  |
-| TiKV | index-block-cache-hit | tikv_block_index_cache_hit | 大于 0.95 | TiKV 中 index block 缓存的命中率 |
-| TiKV | filter-block-cache-hit | tikv_block_filter_cache_hit | 大于 0.95 | TiKV 中 filter block 缓存的命中率 |
-| TiKV | data-block-cache-hit | tikv_block_data_cache_hit | 大于 0.80 | TiKV 中 data block 缓存的命中率 |
-| TiKV | leader-score-balance | pd_scheduler_store_status  | 小于 0.05 | 检测各个 TiKV 实例的 leader score 是否均衡，期望实例间的差异小于 5% |
-| TiKV | region-score-balance | pd_scheduler_store_status  | 小于 0.05 | 检测各个 TiKV 实例的 Region score 是否均衡，期望实例间的差异小于 5% |
-| TiKV | store-available-balance | pd_scheduler_store_status  | 小于 0.2 | 检测各个 TiKV 实例的存储可用空间大小是否均衡，期望实例间的差异小于 20% |
-| TiKV | region-count | pd_scheduler_store_status  | 小于 20000 | 检测各个 TiKV 实例的 Region 数量，期望单个实例的 Region 数量小于 20000 |
-| PD | region-health | pd_region_health | 小于 100  | 检测集群中处于调度中间状态的 Region 数量，期望总数小于 100 |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| 组件 | 监控指标                   | 相关监控表                          | 预期值      | 说明                                                                   |
++:=====+:===========================+:====================================+:============+:=======================================================================+
+| TiDB | tso-duration               | pd_tso_wait_duration                | 小于 50 ms  | 获取事务 TSO 时间戳的等待耗时                                          |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiDB | get-token-duration         | tidb_get_token_duration             | 小于 1 ms   | 查询获取 token 的耗时，相关的 TiDB 配置参数是 token-limit              |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiDB | load-schema-duration       | tidb_load_schema_duration           | 小于 1 s    | TiDB 更新表元信息的耗时                                                |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | scheduler-cmd-duration     | tikv_scheduler_command_duration     | 小于 0.1 s  | TiKV 执行 KV cmd 请求的耗时                                            |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | handle-snapshot-duration   | tikv_handle_snapshot_duration       | 小于 30 s   | TiKV 处理 snapshot 的耗时                                              |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | storage-write-duration     | tikv_storage_async_request_duration | 小于 0.1 s  | TiKV 写入的延迟                                                        |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | storage-snapshot-duration  | tikv_storage_async_request_duration | 小于 50 ms  | TiKV 获取 snapshot 的耗时                                              |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | rocksdb-write-duration     | tikv_engine_write_duration          | 小于 100 ms | TiKV RocksDB 的写入延迟                                                |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | rocksdb-get-duration       | tikv_engine_max_get_duration        | 小于 50 ms  | TiKV RocksDB 的读取延迟                                                |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | rocksdb-seek-duration      | tikv_engine_max_seek_duration       | 小于 50 ms  | TiKV RocksDB 执行 seek 的延迟                                          |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | scheduler-pending-cmd-coun | tikv_scheduler_pending_commands     | 小于 1000   | TiKV 中被阻塞的命令数量                                                |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | index-block-cache-hit      | tikv_block_index_cache_hit          | 大于 0.95   | TiKV 中 index block 缓存的命中率                                       |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | filter-block-cache-hit     | tikv_block_filter_cache_hit         | 大于 0.95   | TiKV 中 filter block 缓存的命中率                                      |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | data-block-cache-hit       | tikv_block_data_cache_hit           | 大于 0.80   | TiKV 中 data block 缓存的命中率                                        |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | leader-score-balance       | pd_scheduler_store_status           | 小于 0.05   | 检测各个 TiKV 实例的 leader score 是否均衡，期望实例间的差异小于 5%    |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | region-score-balance       | pd_scheduler_store_status           | 小于 0.05   | 检测各个 TiKV 实例的 Region score 是否均衡，期望实例间的差异小于 5%    |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | store-available-balance    | pd_scheduler_store_status           | 小于 0.2    | 检测各个 TiKV 实例的存储可用空间大小是否均衡，期望实例间的差异小于 20% |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| TiKV | region-count               | pd_scheduler_store_status           | 小于 20000  | 检测各个 TiKV 实例的 Region 数量，期望单个实例的 Region 数量小于 20000 |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
+| PD   | region-health              | pd_region_health                    | 小于 100    | 检测集群中处于调度中间状态的 Region 数量，期望总数小于 100             |
++------+----------------------------+-------------------------------------+-------------+------------------------------------------------------------------------+
 
 另外还会检测 TiKV 实例的以下 thread cpu usage 是否过高:
 

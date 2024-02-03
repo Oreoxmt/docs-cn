@@ -11,26 +11,45 @@ TiDB 提供了 amd64 和 arm64 两种架构的离线包。对于每种架构，T
 
 `TiDB-community-server` 软件包中包含以下内容：
 
-| 内容 | 变更说明 |
-|---|---|
-| tidb-{version}-linux-{arch}.tar.gz |  |
-| tikv-{version}-linux-{arch}.tar.gz |  |
-| tiflash-{version}-linux-{arch}.tar.gz |  |
-| pd-{version}-linux-{arch}.tar.gz |  |
-| ctl-{version}-linux-{arch}.tar.gz |  |
-| grafana-{version}-linux-{arch}.tar.gz |  |
-| alertmanager-{version}-linux-{arch}.tar.gz |  |
-| blackbox_exporter-{version}-linux-{arch}.tar.gz |  |
-| prometheus-{version}-linux-{arch}.tar.gz |  |
-| node_exporter-{version}-linux-{arch}.tar.gz |  |
-| tiup-linux-{arch}.tar.gz |  |
-| tiup-{version}-linux-{arch}.tar.gz |  |
-| local_install.sh |  |
-| cluster-{version}-linux-{arch}.tar.gz |  |
-| insight-{version}-linux-{arch}.tar.gz |  |
-| diag-{version}-linux-{arch}.tar.gz | 从 v6.0.0 起新增 |
-| influxdb-{version}-linux-{arch}.tar.gz |  |
-| playground-{version}-linux-{arch}.tar.gz |  |
++-------------------------------------------------+------------------+
+| 内容                                            | 变更说明         |
++=================================================+==================+
+| tidb-{version}-linux-{arch}.tar.gz              |                  |
++-------------------------------------------------+------------------+
+| tikv-{version}-linux-{arch}.tar.gz              |                  |
++-------------------------------------------------+------------------+
+| tiflash-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| pd-{version}-linux-{arch}.tar.gz                |                  |
++-------------------------------------------------+------------------+
+| ctl-{version}-linux-{arch}.tar.gz               |                  |
++-------------------------------------------------+------------------+
+| grafana-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| alertmanager-{version}-linux-{arch}.tar.gz      |                  |
++-------------------------------------------------+------------------+
+| blackbox_exporter-{version}-linux-{arch}.tar.gz |                  |
++-------------------------------------------------+------------------+
+| prometheus-{version}-linux-{arch}.tar.gz        |                  |
++-------------------------------------------------+------------------+
+| node_exporter-{version}-linux-{arch}.tar.gz     |                  |
++-------------------------------------------------+------------------+
+| tiup-linux-{arch}.tar.gz                        |                  |
++-------------------------------------------------+------------------+
+| tiup-{version}-linux-{arch}.tar.gz              |                  |
++-------------------------------------------------+------------------+
+| local_install.sh                                |                  |
++-------------------------------------------------+------------------+
+| cluster-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| insight-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| diag-{version}-linux-{arch}.tar.gz              | 从 v6.0.0 起新增 |
++-------------------------------------------------+------------------+
+| influxdb-{version}-linux-{arch}.tar.gz          |                  |
++-------------------------------------------------+------------------+
+| playground-{version}-linux-{arch}.tar.gz        |                  |
++-------------------------------------------------+------------------+
 
 > **注意：**
 >
@@ -38,42 +57,77 @@ TiDB 提供了 amd64 和 arm64 两种架构的离线包。对于每种架构，T
 
 `TiDB-community-toolkit` 软件包中包含以下内容：
 
-| 内容 | 变更说明 |
-|---|---|
-| tikv-importer-{version}-linux-{arch}.tar.gz |  |
-| pd-recover-{version}-linux-{arch}.tar.gz |  |
-| etcdctl | 从 v6.0.0 起新增 |
-| tiup-linux-{arch}.tar.gz |  |
-| tiup-{version}-linux-{arch}.tar.gz |  |
-| tidb-lightning-{version}-linux-{arch}.tar.gz |  |
-| tidb-lightning-ctl |  |
-| dumpling-{version}-linux-{arch}.tar.gz |  |
-| cdc-{version}-linux-{arch}.tar.gz |  |
-| dm-{version}-linux-{arch}.tar.gz |  |
-| dm-worker-{version}-linux-{arch}.tar.gz |  |
-| dm-master-{version}-linux-{arch}.tar.gz |  |
-| dmctl-{version}-linux-{arch}.tar.gz |  |
-| br-{version}-linux-{arch}.tar.gz |  |
-| spark-{version}-any-any.tar.gz |  |
-| tispark-{version}-any-any.tar.gz |  |
-| package-{version}-linux-{arch}.tar.gz |  |
-| bench-{version}-linux-{arch}.tar.gz |  |
-| errdoc-{version}-linux-{arch}.tar.gz |  |
-| dba-{version}-linux-{arch}.tar.gz |  |
-| PCC-{version}-linux-{arch}.tar.gz |  |
-| pump-{version}-linux-{arch}.tar.gz |  |
-| drainer-{version}-linux-{arch}.tar.gz |  |
-| binlogctl | 从 v6.0.0 起新增 |
-| sync_diff_inspector |  |
-| reparo |  |
-| arbiter |  |
-| mydumper | 从 v6.0.0 起新增 |
-| server-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增 |
-| grafana-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增 |
-| alertmanager-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增 |
-| prometheus-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增  |
++-------------------------------------------------+------------------+
+| 内容                                            | 变更说明         |
++=================================================+==================+
+| tikv-importer-{version}-linux-{arch}.tar.gz     |                  |
++-------------------------------------------------+------------------+
+| pd-recover-{version}-linux-{arch}.tar.gz        |                  |
++-------------------------------------------------+------------------+
+| etcdctl                                         | 从 v6.0.0 起新增 |
++-------------------------------------------------+------------------+
+| tiup-linux-{arch}.tar.gz                        |                  |
++-------------------------------------------------+------------------+
+| tiup-{version}-linux-{arch}.tar.gz              |                  |
++-------------------------------------------------+------------------+
+| tidb-lightning-{version}-linux-{arch}.tar.gz    |                  |
++-------------------------------------------------+------------------+
+| tidb-lightning-ctl                              |                  |
++-------------------------------------------------+------------------+
+| dumpling-{version}-linux-{arch}.tar.gz          |                  |
++-------------------------------------------------+------------------+
+| cdc-{version}-linux-{arch}.tar.gz               |                  |
++-------------------------------------------------+------------------+
+| dm-{version}-linux-{arch}.tar.gz                |                  |
++-------------------------------------------------+------------------+
+| dm-worker-{version}-linux-{arch}.tar.gz         |                  |
++-------------------------------------------------+------------------+
+| dm-master-{version}-linux-{arch}.tar.gz         |                  |
++-------------------------------------------------+------------------+
+| dmctl-{version}-linux-{arch}.tar.gz             |                  |
++-------------------------------------------------+------------------+
+| br-{version}-linux-{arch}.tar.gz                |                  |
++-------------------------------------------------+------------------+
+| spark-{version}-any-any.tar.gz                  |                  |
++-------------------------------------------------+------------------+
+| tispark-{version}-any-any.tar.gz                |                  |
++-------------------------------------------------+------------------+
+| package-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| bench-{version}-linux-{arch}.tar.gz             |                  |
++-------------------------------------------------+------------------+
+| errdoc-{version}-linux-{arch}.tar.gz            |                  |
++-------------------------------------------------+------------------+
+| dba-{version}-linux-{arch}.tar.gz               |                  |
++-------------------------------------------------+------------------+
+| PCC-{version}-linux-{arch}.tar.gz               |                  |
++-------------------------------------------------+------------------+
+| pump-{version}-linux-{arch}.tar.gz              |                  |
++-------------------------------------------------+------------------+
+| drainer-{version}-linux-{arch}.tar.gz           |                  |
++-------------------------------------------------+------------------+
+| binlogctl                                       | 从 v6.0.0 起新增 |
++-------------------------------------------------+------------------+
+| sync_diff_inspector                             |                  |
++-------------------------------------------------+------------------+
+| reparo                                          |                  |
++-------------------------------------------------+------------------+
+| arbiter                                         |                  |
++-------------------------------------------------+------------------+
+| mydumper                                        | 从 v6.0.0 起新增 |
++-------------------------------------------------+------------------+
+| server-{version}-linux-{arch}.tar.gz            | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
+| grafana-{version}-linux-{arch}.tar.gz           | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
+| alertmanager-{version}-linux-{arch}.tar.gz      | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
+| prometheus-{version}-linux-{arch}.tar.gz        | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
 | blackbox_exporter-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增 |
-| node_exporter-{version}-linux-{arch}.tar.gz | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
+| node_exporter-{version}-linux-{arch}.tar.gz     | 从 v6.2.0 起新增 |
++-------------------------------------------------+------------------+
 
 > **注意：**
 >

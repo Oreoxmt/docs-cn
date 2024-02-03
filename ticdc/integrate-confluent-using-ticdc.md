@@ -370,15 +370,23 @@ SQL Server 是 Microsoft 推出的关系型数据库软件。借助 Confluent �
 
 5. 在 **Configuration** 界面，按下表进行配置：
 
-    | 字段 | 取值 |
-    | :- | :- |
-    | Input Kafka record value format | AVRO |
-    | Insert mode | UPSERT |
-    | Auto create table | true |
-    | Auto add columns | true |
-    | PK mode | record\_key |
-    | Input Kafka record key format | AVRO |
-    | Delete on null | true |
+    +---------------------------------+------------+
+    | 字段                            | 取值       |
+    +:================================+:===========+
+    | Input Kafka record value format | AVRO       |
+    +---------------------------------+------------+
+    | Insert mode                     | UPSERT     |
+    +---------------------------------+------------+
+    | Auto create table               | true       |
+    +---------------------------------+------------+
+    | Auto add columns                | true       |
+    +---------------------------------+------------+
+    | PK mode                         | record_key |
+    +---------------------------------+------------+
+    | Input Kafka record key format   | AVRO       |
+    +---------------------------------+------------+
+    | Delete on null                  | true       |
+    +---------------------------------+------------+
 
 6. 配置完成后，选择 **Continue**，等待 Connector 状态变为 **RUNNING**，这个过程可能持续数分钟。
 

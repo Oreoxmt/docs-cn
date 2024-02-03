@@ -9,12 +9,17 @@ summary: 了解 TiDB 事务的隔离级别。
 
 SQL-92 标准定义了 4 种隔离级别：读未提交 (READ UNCOMMITTED)、读已提交 (READ COMMITTED)、可重复读 (REPEATABLE READ)、串行化 (SERIALIZABLE)。详见下表：
 
++------------------+--------------+--------------+--------------+--------------+
 | Isolation Level  | Dirty Write  | Dirty Read   | Fuzzy Read   | Phantom      |
-| ---------------- | ------------ | ------------ | ------------ | ------------ |
++==================+==============+==============+==============+==============+
 | READ UNCOMMITTED | Not Possible | Possible     | Possible     | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | READ COMMITTED   | Not Possible | Not possible | Possible     | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | REPEATABLE READ  | Not Possible | Not possible | Not possible | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | SERIALIZABLE     | Not Possible | Not possible | Not possible | Not possible |
++------------------+--------------+--------------+--------------+--------------+
 
 TiDB 实现了快照隔离 (Snapshot Isolation, SI) 级别的一致性。为与 MySQL 保持一致，又称其为“可重复读” (REPEATABLE READ)。该隔离级别不同于 [ANSI 可重复读隔离级别](#与-ansi-可重复读隔离级别的区别)和 [MySQL 可重复读隔离级别](#与-mysql-可重复读隔离级别的区别)。
 

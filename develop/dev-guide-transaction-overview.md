@@ -133,12 +133,17 @@ SELECT * FROM `users`;
 
 SQL-92 标准定义了 4 种隔离级别：读未提交 (`READ UNCOMMITTED`)、读已提交 (`READ COMMITTED`)、可重复读 (`REPEATABLE READ`)、串行化 (`SERIALIZABLE`)。详见下表：
 
++------------------+--------------+--------------+--------------+--------------+
 | Isolation Level  | Dirty Write  | Dirty Read   | Fuzzy Read   | Phantom      |
-| ---------------- | ------------ | ------------ | ------------ | ------------ |
++==================+==============+==============+==============+==============+
 | READ UNCOMMITTED | Not Possible | Possible     | Possible     | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | READ COMMITTED   | Not Possible | Not possible | Possible     | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | REPEATABLE READ  | Not Possible | Not possible | Not possible | Possible     |
++------------------+--------------+--------------+--------------+--------------+
 | SERIALIZABLE     | Not Possible | Not possible | Not possible | Not possible |
++------------------+--------------+--------------+--------------+--------------+
 
 TiDB 语法上支持设置 `READ COMMITTED` 和 `REPEATABLE READ` 两种隔离级别：
 

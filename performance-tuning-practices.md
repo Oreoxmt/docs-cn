@@ -411,10 +411,48 @@ Query 平均延迟从 533 us 下降到 313 us。execute 平均延迟从 466 us �
 
 以下表格展示了七个不同场景的性能表现：
 
-| 指标  |   场景 1 | 场景 2   | 场景 3 | 场景 4 |场景 5 | 场景 6 | 场景 7 | 对比场景 5 和场景 2 (%) | 对比场景 7 和场景 3(%) |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |  --- |
-| query duration  | 479μs | 1120μs | 528μs | 426μs |690μs  | 533μs | 313μs | -38% | -51% |
-| QPS            | 56.3k |  24.2k | 19.7k | 22.1k | 30.9k | 34.9k | 40.9k | +28% | +108% |
+<table>
+<thead>
+<tr class="header">
+<th>指标</th>
+<th>场景 1</th>
+<th>场景 2</th>
+<th>场景 3</th>
+<th>场景 4</th>
+<th>场景 5</th>
+<th>场景 6</th>
+<th>场景 7</th>
+<th>对比场景 5 和场景 2 (%)</th>
+<th>对比场景 7 和场景 3(%)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>query duration</td>
+<td>479μs</td>
+<td>1120μs</td>
+<td>528μs</td>
+<td>426μs</td>
+<td>690μs</td>
+<td>533μs</td>
+<td>313μs</td>
+<td>-38%</td>
+<td>-51%</td>
+</tr>
+<tr class="even">
+<td>QPS</td>
+<td>56.3k</td>
+<td>24.2k</td>
+<td>19.7k</td>
+<td>22.1k</td>
+<td>30.9k</td>
+<td>34.9k</td>
+<td>40.9k</td>
+<td>+28%</td>
+<td>+108%</td>
+</tr>
+</tbody>
+</table>
 
 其中，场景 2 是应用程序使用 Query 接口的常见场景，场景 5 是应用程序使用 Prepared Statement 接口的理想场景。
 
