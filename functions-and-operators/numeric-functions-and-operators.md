@@ -1,6 +1,7 @@
 ---
 title: 数值函数与操作符
 aliases: ['/docs-cn/dev/functions-and-operators/numeric-functions-and-operators/','/docs-cn/dev/reference/sql/functions-and-operators/numeric-functions-and-operators/']
+summary: TiDB支持MySQL 5.7中的所有数值函数与操作符，包括加减乘除、整数除法、模运算等算术操作符，以及返回乘方、自然对数、正弦余弦值等数学函数。这些函数可以用于数值计算和数据处理，提高数据库的功能和灵活性。
 ---
 
 # 数值函数与操作符

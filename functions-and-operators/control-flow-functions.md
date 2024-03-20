@@ -1,6 +1,7 @@
 ---
 title: 控制流程函数
 aliases: ['/docs-cn/dev/functions-and-operators/control-flow-functions/','/docs-cn/dev/reference/sql/functions-and-operators/control-flow-functions/']
+summary: TiDB支持MySQL 5.7中的控制流程函数，包括CASE、IF()、IFNULL()和NULLIF()。这些函数可以用于构建if/else语句，处理NULL值，以及进行条件判断。
 ---
 
 # 控制流程函数

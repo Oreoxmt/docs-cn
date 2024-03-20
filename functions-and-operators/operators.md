@@ -1,6 +1,7 @@
 ---
 title: 操作符
 aliases: ['/docs-cn/dev/functions-and-operators/operators/','/docs-cn/dev/reference/sql/functions-and-operators/operators/']
+summary: 操作符包括逻辑与、赋值、范围判断、位运算等。不支持的操作符有 SOUNDS LIKE。操作符优先级从高到低依次为 INTERVAL、BINARY、!、^、*、/、DIV、%、MOD、-、+、<<、>>、&、|、=、<=>、>=、>、<=、<、<>, !=、IS、LIKE、REGEXP、IN、BETWEEN、CASE、WHEN、THEN、ELSE、NOT、AND、&&、XOR、OR、||、=、:=。比较方法和操作符包括判断范围、相等比较、大小比较、模式匹配等。逻辑操作符有逻辑与、逻辑非、逻辑或、逻辑异或。赋值操作符有赋值和赋值。MySQL 不支持 ILIKE 操作符。
 ---
 
 # 操作符

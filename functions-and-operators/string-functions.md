@@ -1,6 +1,7 @@
 ---
 title: 字符串函数
 aliases: ['/docs-cn/dev/functions-and-operators/string-functions/','/docs-cn/dev/reference/sql/functions-and-operators/string-functions/','/docs-cn/dev/sql/string-functions/']
+summary: TiDB支持大部分MySQL 5.7和部分MySQL 8.0字符串函数，以及部分Oracle 21函数。它还提供了一些函数，如ASCII()、BIN()、BIT_LENGTH()、CHAR()、CHAR_LENGTH()、CHARACTER_LENGTH()、CONCAT()、CONCAT_WS()、ELT()、EXPORT_SET()、FIELD()、FIND_IN_SET()、FORMAT()、FROM_BASE64()、HEX()、INSERT()、INSTR()、LCASE()、LEFT()、LENGTH()、LIKE、LOCATE()、LOWER()、LPAD()、LTRIM()、MAKE_SET()、MID()、NOT LIKE、NOT REGEXP、OCT()、OCTET_LENGTH()、ORD()、POSITION()、QUOTE()、REGEXP、REGEXP_INSTR()、REGEXP_LIKE()、REGEXP_REPLACE()、REGEXP_SUBSTR()、REPEAT()、REPLACE()、REVERSE()、RIGHT()、RLIKE、RPAD()、RTRIM()、SPACE()、STRCMP()、SUBSTR()、SUBSTRING()、SUBSTRING_INDEX()、TO_BASE64()、TRANSLATE()、TRIM()、UCASE()、UNHEX()、UPPER()、WEIGHT_STRING()。MySQL的正则函数与TiDB的正则函数在语法、匹配模式、数据类型和替换空字符串上存在一些差异。
 ---
 
 # 字符串函数
