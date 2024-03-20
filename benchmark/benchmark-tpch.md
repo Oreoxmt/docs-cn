@@ -1,6 +1,7 @@
 ---
 title: TiDB TPC-H 50G 性能测试报告
 aliases: ['/docs-cn/dev/benchmark/benchmark-tpch/','/docs-cn/dev/benchmark/tpch/']
+summary: TiDB TPC-H 50G性能测试报告显示，TiDB 2.0在大部分查询中表现优于TiDB 1.0。然而，部分查询在TiDB 1.0中未能完成或因内存占用过多而被终止。测试环境包括不同操作系统和硬件信息，测试结果以图表形式展示。
 ---
 
 # TiDB TPC-H 50G 性能测试报告

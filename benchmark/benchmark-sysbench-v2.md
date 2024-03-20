@@ -1,6 +1,7 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v2.0.0 对比 v1.0.0
 aliases: ['/docs-cn/dev/benchmark/benchmark-sysbench-v2/','/docs-cn/dev/benchmark/sysbench-v2/']
+summary: TiDB 2.0 版本和 1.0 版本在 OLTP 场景下的性能对比测试报告。测试环境为 IDC 机器，包括 CPU、RAM 和 DISK 信息。测试结果显示，GA2.0 在 Select 查询性能上提升了 10% 左右，而在 OLTP 性能上基本一致。在 Insert 性能上，GA2.0 略有提升。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v2.0.0 对比 v1.0.0

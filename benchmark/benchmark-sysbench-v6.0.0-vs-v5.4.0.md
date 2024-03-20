@@ -1,5 +1,6 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v6.0.0 对比 v5.4.0
+summary: TiDB v6.0.0 在 OLTP 场景下的 Sysbench 性能对比测试显示，Read Write 负载性能提升了16.17%，其他负载性能基本持平。硬件配置为PD m5.xlarge 3台、TiKV i3.4xlarge 3台、TiDB c5.4xlarge 3台、Sysbench c5.9xlarge 1台。软件版本为PD v5.4.0、v6.0.0、TiDB v5.4.0、v6.0.0、TiKV v5.4.0、v6.0.0、Sysbench 1.1.0-df89d34。参数配置相同。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v6.0.0 对比 v5.4.0

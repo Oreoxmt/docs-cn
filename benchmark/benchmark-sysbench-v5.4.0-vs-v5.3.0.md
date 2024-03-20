@@ -1,5 +1,6 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v5.4.0 对比 v5.3.0
+summary: TiDB v5.4.0 在 OLTP 场景下的 Sysbench 性能比 v5.3.0 有所提升，特别是在写负载方面。测试结果显示，v5.4.0 的写负载性能提升了 2.59% ~ 4.85%。硬件配置为 PD m5.xlarge 3台、TiKV i3.4xlarge 3台、TiDB c5.4xlarge 3台、Sysbench c5.9xlarge 1台。软件版本为 PD v5.3.0、v5.4.0、TiDB v5.3.0、v5.4.0、TiKV v5.3.0、v5.4.0、Sysbench 1.1.0-ead2689。参数配置相同。测试结果显示各种负载的性能提升了 0.64% ~ 4.85%。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v5.4.0 对比 v5.3.0

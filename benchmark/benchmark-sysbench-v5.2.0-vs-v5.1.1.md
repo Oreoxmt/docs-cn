@@ -1,5 +1,6 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v5.2.0 对比 v5.1.1
+summary: TiDB v5.2.0 在 OLTP 场景下的 Sysbench 性能对比测试显示，Point Select 场景性能提升了11.03%，但其余场景性能略有下降。硬件配置为PD m5.xlarge 3台、TiKV i3.4xlarge 3台、TiDB c5.4xlarge 3台、Sysbench c5.9xlarge 1台。软件版本为PD v5.1.1、v5.2.0、TiDB v5.1.1、v5.2.0、TiKV v5.1.1、v5.2.0、Sysbench 1.1.0-ead2689。测试结果显示各场景性能对比情况。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v5.2.0 对比 v5.1.1

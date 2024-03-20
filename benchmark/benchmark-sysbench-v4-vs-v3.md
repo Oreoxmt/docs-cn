@@ -1,6 +1,7 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v4.0 对比 v3.0
 aliases: ['/docs-cn/dev/benchmark/benchmark-sysbench-v4-vs-v3/']
+summary: TiDB v4.0 在 OLTP 场景下的性能比 v3.0 提升了。Point Select 性能提升了14%，Update Non-index 提升了15%，Update Index 提升了17%，Read Write 提升了31%。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v4.0 对比 v3.0

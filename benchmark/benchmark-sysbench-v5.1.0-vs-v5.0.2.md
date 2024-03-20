@@ -1,5 +1,6 @@
 ---
 title: TiDB Sysbench 性能对比测试报告 - v5.1.0 对比 v5.0.2
+summary: TiDB v5.1.0 在 Point Select 场景性能提升了19.4%，但在 Read Write 和 Update Index 场景下性能略有下降。测试环境为AWS EC2，硬件配置包括PD、TiKV、TiDB和Sysbench，软件版本为v5.0.2和v5.1.0。测试方案包括通过TiUP部署TiDB、Sysbench导入数据和执行测试命令。测试结果显示v5.1.0相比v5.0.2在不同场景下的性能表现。
 ---
 
 # TiDB Sysbench 性能对比测试报告 - v5.1.0 对比 v5.0.2

@@ -1,6 +1,7 @@
 ---
 title: 如何用 Sysbench 测试 TiDB
 aliases: ['/docs-cn/dev/benchmark/benchmark-tidb-using-sysbench/','/docs-cn/dev/benchmark/how-to-run-sysbench/']
+summary: 使用Sysbench 1.0或更新版本测试TiDB时，建议升高日志级别以减少日志数量，同时启用预处理语句和配置RocksDB的block cache。在测试过程中，需要对Sysbench进行配置，导入数据前需对TiDB进行简单设置，并进行数据预热。常见问题可能与使用proxy有关，TiKV的CPU利用率可能很低，TiKV的其他模块可以通过配置文件进行调整。在高并发压力下，TiDB的CPU利用率也可能很低，建议在NUMA架构服务器上部署多个TiDB。
 ---
 
 # 如何用 Sysbench 测试 TiDB
