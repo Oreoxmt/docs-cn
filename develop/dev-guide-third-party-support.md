@@ -1,6 +1,7 @@
 ---
 title: TiDB 支持的第三方工具
 aliases: ['/zh/tidb/dev/supported-by-pingcap']
+summary: TiDB支持的第三方工具包括驱动、ORM框架和GUI。支持等级分为Full和Compatible，其中Full表示绝大多数功能兼容性已得到支持，Compatible表示大部分功能可使用但未经完整验证。如果遇到连接问题，可在GitHub上提交详细信息的issue以获得帮助。
 ---
 
 # TiDB 支持的第三方工具
