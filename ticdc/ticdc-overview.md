@@ -1,6 +1,7 @@
 ---
 title: TiCDC 简介
 aliases: ['/docs-cn/dev/ticdc/ticdc-overview/','/docs-cn/dev/reference/tools/ticdc/overview/']
+summary: TiCDC 是一款 TiDB 增量数据同步工具，适用于多 TiDB 集群、跨区域数据高可用和容灾方案。它提供了多种数据同步能力，包括 TiDB 到 TiDB 的数据容灾复制、TiDB 到 MySQL 的低延迟增量数据同步、以及表级别数据同步能力。TiCDC 架构通过 PD 内部的 etcd 实现高可用，通过多个 TiCDC 进程获取 TiKV 节点上的数据改变，并通过多个同步任务向多个下游系统进行数据同步。暂不支持的场景包括单独使用 RawKV 的 TiKV 集群和在同步过程中对 TiCDC 正在同步的表和库进行数据恢复和导入。
 ---
 
 # TiCDC 简介
