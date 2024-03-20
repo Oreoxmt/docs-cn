@@ -1,6 +1,7 @@
 ---
 title: 手动处理 Sharding DDL Lock
 aliases: ['/docs-cn/tidb-data-migration/dev/manually-handling-sharding-ddl-locks/','/docs-cn/tidb-data-migration/dev/feature-manually-handling-sharding-ddl-locks/']
+summary: DM 使用 sharding DDL lock 来确保分库分表的 DDL 操作可以正确执行。在异常情况下，可以使用 `shard-ddl-lock` 手动处理异常的 DDL lock。命令包括 `shard-ddl-lock` 用于查看和请求解除 DDL lock，以及 `shard-ddl-lock unlock` 用于主动解除指定的 DDL lock。支持处理部分 MySQL source 被移除和 unlock 过程中部分 DM-worker 异常停止或网络中断的情况。
 ---
 
 # 手动处理 Sharding DDL Lock

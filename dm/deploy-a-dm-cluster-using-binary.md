@@ -1,6 +1,7 @@
 ---
 title: 使用 DM binary 部署 DM 集群
 aliases: ['/docs-cn/tidb-data-migration/dev/deploy-a-dm-cluster-using-binary/']
+summary: 本文介绍如何使用DM binary快速部署DM集群。首先，从TiDB离线工具包中下载DM安装包。然后，在五台服务器上部署两个DM-worker实例和三个DM-master实例。对于DM-master，可以使用命令行参数或配置文件进行部署。对于DM-worker，也可以使用命令行参数或配置文件进行部署。部署完成后，需要确保各组件间端口可正常连通。
 ---
 
 # 使用 DM binary 部署 DM 集群

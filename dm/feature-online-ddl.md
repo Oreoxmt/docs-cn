@@ -1,6 +1,7 @@
 ---
 title: 迁移使用 GH-ost/PT-osc 的源数据库
 aliases: ['/docs-cn/tidb-data-migration/dev/feature-online-ddl-scheme/','/zh/tidb-data-migration/stable/feature-online-ddl-scheme']
+summary: 使用GH-ost/PT-osc的源数据库迁移时，可以通过开启online-ddl配置，实现DM工具与gh-ost或pt-osc的协同。DM与这些工具在实现online-schema-change过程中的协作细节包括创建表、应用DDL、同步数据以及改名操作。此外，DM还支持修改过的online schema change工具，可以通过正则表达式来匹配修改过的临时表。
 ---
 
 # 迁移使用 GH-ost/PT-osc 的源数据库

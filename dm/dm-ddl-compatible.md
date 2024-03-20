@@ -1,5 +1,6 @@
 ---
 title: Data Migration DDL 特殊处理说明
+summary: 数据迁移中，根据不同的DDL语句和场景，采用不同处理方式。DM不支持的DDL语句会直接跳过。部分DDL语句在同步到下游前会进行改写。悲观协调模式和乐观协调模式进行分库分表合并迁移时，DDL同步行为存在变更。Online DDL特性也会对DDL事件进行特殊处理。详情请参考相关文档。
 ---
 
 # Data Migration DDL 特殊处理说明

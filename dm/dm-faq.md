@@ -1,6 +1,7 @@
 ---
 title: Data Migration 常见问题
 aliases: ['/docs-cn/tidb-data-migration/dev/faq/']
+summary: 数据迁移常见问题包括：DM是否支持迁移阿里RDS和其他云数据库的数据，task配置中的黑白名单的正则表达式是否支持非获取匹配，处理不兼容的DDL语句，重置数据迁移任务，全量导入过程中遇到报错，TiUP无法部署DM的某个版本，DM同步报错，监控中部分面板显示无数据点，DM v1.0在任务出错时使用sql-skip命令无法跳过某些语句，DM同步时下游长时间出现REPLACE语句，DM上游无写入，replicate lag监控无数据，DM v2.0.0启动任务时出现fail to initial unit Sync of subtask错误，DM同步中报错duplicate entry，DM分库分表同步中没有明显报错，但是下游数据丢失。
 ---
 
 # Data Migration 常见问题

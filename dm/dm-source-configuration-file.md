@@ -1,6 +1,7 @@
 ---
 title: TiDB Data Migration 上游数据库配置文件介绍
 aliases: ['/docs-cn/tidb-data-migration/dev/source-configuration-file/']
+summary: TiDB Data Migration (DM) 上游数据库配置文件包括示例与配置项说明。示例配置文件包括上游数据库的配置项，如是否开启 GTID、是否开启 relay log、拉取上游 binlog 的起始文件名等。配置项说明包括全局配置、relay log 清理策略配置、任务状态检查配置和 Binlog event filter。需注意在 DM v2.0.1 版本中不要同时配置 `enable-gtid` 与 `enable-relay` 为 `true`，以避免增量数据丢失问题。
 ---
 
 # TiDB Data Migration 上游数据库配置文件介绍

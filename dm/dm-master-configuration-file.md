@@ -1,6 +1,7 @@
 ---
 title: DM-master 配置文件介绍
 aliases: ['/docs-cn/tidb-data-migration/dev/dm-master-configuration-file/']
+summary: 本文介绍 DM-master 的配置文件，包括配置文件示例与配置项说明。配置文件示例包括了 DM-master 的示例配置文件，包括了日志配置、DM-master 服务地址、集群配置等内容。配置项说明包括了全局配置，如标识 DM-master、日志级别、日志文件、DM-master 服务地址等。还包括了 SSL 相关配置，如 SSL CA 证书路径、SSL 证书路径、SSL 密钥路径等。
 ---
 
 # DM-master 配置文件介绍

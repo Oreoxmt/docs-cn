@@ -1,5 +1,6 @@
 ---
 title: TiDB Data Migration 数据迁移任务配置向导
+summary: 本文介绍了如何配置 TiDB Data Migration (DM) 的数据迁移任务。首先确认已在 DM 创建相应数据源，然后配置需要迁移的数据源和目标 TiDB 集群。接下来配置需要迁移的表、需要过滤的操作以及数据源表到目标 TiDB 表的映射。最后，如果需要进行分库分表合并，则需要显式配置 `shard-mode`。完整的任务配置示例可参见 [DM 任务完整配置文件介绍](/dm/task-configuration-file-full.md)。
 ---
 
 # TiDB Data Migration 数据迁移任务配置向导

@@ -1,6 +1,7 @@
 ---
 title: DM 配置简介
 aliases: ['/docs-cn/tidb-data-migration/dev/config-overview/']
+summary: 本文简要介绍了DM（数据迁移）的配置文件和数据迁移任务的配置。配置文件包括dm-master.toml、dm-worker.toml和source.yaml，分别用于配置DM-master进程、DM-worker进程和上游数据库MySQL/MariaDB。创建数据迁移任务的具体步骤包括使用dmctl加载数据源配置到DM集群，参考数据任务配置向导创建your_task.yaml，以及使用dmctl创建数据迁移任务。此外，还介绍了DM配置的关键概念，包括source-id、DM-master ID和DM-worker ID。
 ---
 
 # DM 配置简介

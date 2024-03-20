@@ -1,5 +1,6 @@
 ---
 title: Data Migration 架构
+summary: Data Migration 架构包括三个组件：DM-master，DM-worker 和 dmctl。DM-master负责管理和调度数据迁移任务的操作，监控运行状态，提供统一入口。DM-worker执行具体的数据迁移任务，持久化保存数据，监控运行状态。dmctl是用来控制DM集群的命令行工具，可以创建、更新或删除数据迁移任务，查看任务状态，处理错误，校验配置正确性。还有更多关于Data Migration的内容可探索。
 ---
 
 # Data Migration 架构
