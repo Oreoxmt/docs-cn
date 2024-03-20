@@ -1,6 +1,7 @@
 ---
 title: sync-diff-inspector 用户文档
 aliases: ['/docs-cn/dev/sync-diff-inspector/sync-diff-inspector-overview/','/docs-cn/dev/reference/tools/sync-diff-inspector/overview/']
+summary: sync-diff-inspector 是一个用于校验 MySQL／TiDB 中数据一致性的工具，提供修复数据的功能。它支持对比表结构和数据，生成用于修复数据的 SQL 语句，并支持不同库名或表名的数据校验以及分库分表场景下的数据校验。该工具需要获取表结构信息和查询数据的数据库权限，并在运行时输出校验进度和校验结果。需要注意避免在业务高峰期间校验数据，并确认生成的 SQL 文件后再执行修复数据。
 ---
 
 # sync-diff-inspector 用户文档

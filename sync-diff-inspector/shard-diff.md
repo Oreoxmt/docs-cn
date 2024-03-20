@@ -1,6 +1,7 @@
 ---
 title: 分库分表场景下的数据校验
 aliases: ['/docs-cn/dev/sync-diff-inspector/shard-diff/','/docs-cn/dev/reference/tools/sync-diff-inspector/shard-diff/']
+summary: sync-diff-inspector支持分库分表场景的数据校验。使用datasource config配置上下游表的映射关系。可根据分表数量和命名规则选择不同配置方式。需注意上游数据库的表可能被下游数据库匹配到。
 ---
 
 # 分库分表场景下的数据校验
