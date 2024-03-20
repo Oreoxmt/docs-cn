@@ -1,6 +1,7 @@
 ---
 title: TiDB Lightning 断点续传
 aliases: ['/docs-cn/dev/tidb-lightning/tidb-lightning-checkpoints/','/docs-cn/dev/reference/tools/tidb-lightning/checkpoints/']
+summary: TiDB Lightning 提供了“断点续传”的功能，即使 `tidb-lightning` 崩溃，在重启时仍然接着之前的进度继续工作。断点续传可通过配置启用，存储方式包括本地文件和 MySQL 数据库。使用 `tidb-lightning-ctl` 工具可以控制断点续传的操作，包括错误处理和断点清除。
 ---
 
 # TiDB Lightning 断点续传

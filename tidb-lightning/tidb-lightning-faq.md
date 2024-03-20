@@ -1,6 +1,9 @@
 ---
 title: TiDB Lightning 常见问题
 aliases: ['/docs-cn/dev/tidb-lightning/tidb-lightning-faq/','/docs-cn/dev/faq/tidb-lightning/']
+summary: TiDB Lightning 常见问题的文章总结如下：
+
+TiDB Lightning 对 TiDB/TiKV/PD 的最低版本要求与集群相同。支持导入多个库。对下游数据库的账号权限要求详见 TiDB Lightning 使用前提。导数据过程中某个表报错不会影响其他表。正确重启 TiDB Lightning需结束进程并启动新任务。校验导入数据的正确性可通过TiDB Lightning默认校验和或使用ADMIN CHECKSUM TABLE指令。支持的数据源格式有Dumpling、CSV和Amazon Aurora Parquet。已在下游创建好库和表时，TiDB Lightning可自动识别。可通过开启严格SQL模式来禁止导入不合规的数据。结束tidb-lightning进程需根据部署方式选择相应操作。建议使用万兆网卡。TiDB Lightning需要在TiKV集群预留大量空间。清除所有与TiDB Lightning相关的中间数据需删除断点文件和元信息。获取TiDB Lightning运行时的goroutine信息需发送USR1信号并访问相应链接。TiDB Lightning不兼容Placement Rules in SQL。使用TiDB Lightning和Dumpling复制schema需创建原schema的备份并使用相应配置文件运行导入。
 ---
 
 # TiDB Lightning 常见问题
