@@ -1,6 +1,7 @@
 ---
 title: TiFlash 报警规则
 aliases: ['/docs-cn/dev/tiflash/tiflash-alert-rules/','/docs-cn/dev/reference/tiflash/alert-rules/']
+summary: TiFlash报警规则介绍了TiFlash集群的报警规则。包括了TiFlash_schema_error、TiFlash_schema_apply_duration、TiFlash_raft_read_index_duration和TiFlash_raft_wait_index_duration四种报警规则，分别对应不同的报警条件和处理方法。报警规则主要是针对TiFlash集群内部可能出现的问题进行监控和处理。
 ---
 
 # TiFlash 报警规则

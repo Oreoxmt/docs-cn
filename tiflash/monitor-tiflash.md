@@ -1,6 +1,7 @@
 ---
 title: TiFlash 集群监控
 aliases: ['/docs-cn/dev/tiflash/monitor-tiflash/','/docs-cn/dev/reference/tiflash/monitor/']
+summary: TiFlash 集群监控包括Grafana Dashboard和监控信息。Grafana Dashboard分为PD、TiDB、TiKV、Node_exporter、Overview。TiFlash面板包括TiFlash-Summary、TiFlash-Proxy-Summary、TiFlash-Proxy-Details。监控信息包括Server、Coprocessor、Task Scheduler、DDL、Storage、Storage Write Stall、Raft。注意低版本TiFlash监控信息不完善，建议使用v4.0.5或更高版本的TiDB集群。
 ---
 
 # TiFlash 集群监控
