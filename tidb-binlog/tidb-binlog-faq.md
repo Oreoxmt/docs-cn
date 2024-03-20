@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 常见问题
 aliases: ['/docs-cn/dev/tidb-binlog/tidb-binlog-faq/','/docs-cn/dev/reference/tidb-binlog/faq/','/docs-cn/dev/faq/tidb-binlog/','/docs-cn/dev/reference/tools/tidb-binlog/faq/']
+summary: TiDB Binlog 常见问题解决方案：开启 binog 对 TiDB 性能影响不大，同步延迟一般为秒级别，Drainer 同步账号需要特定权限，Pump 磁盘快满了需要确认 GC 正常，Drainer 同步中断需查看监控与日志，Drainer 同步慢需特别关注监控项，Pump crash 可通过 binlogctl 处理，checkpoint 记录了同步的 commit-ts，Drainer 机器发生故障可重新部署，全量 + binlog 备份文件可用于恢复集群，主从同步开启 `ignore-error` 触发 critical error 后需重新部署，同步时出现上游数据库支持但下游数据库执行会出错的 DDL需手动处理，暂停和下线 Pump/Drainer需使用 binlogctl 的命令。
 ---
 
 # TiDB Binlog 常见问题

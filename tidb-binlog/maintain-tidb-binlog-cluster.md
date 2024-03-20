@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 集群运维
 aliases: ['/docs-cn/dev/tidb-binlog/maintain-tidb-binlog-cluster/','/docs-cn/dev/reference/tidb-binlog/maintain/','/docs-cn/dev/how-to/maintain/tidb-binlog/','/docs-cn/dev/reference/tools/tidb-binlog/maintain/']
+summary: TiDB Binlog 集群运维包括 Pump 和 Drainer 的状态管理和启动、退出流程。通过 binlogctl 工具或 TiDB SQL 可以管理集群状态，包括查看状态、暂停/下线节点以及处理异常状态。具体操作方法可参考 binlogctl 工具的使用介绍。注意，查看 binlog 开启状态和节点状态功能需要 TiDB v2.1.7 及以上版本支持，而修改节点状态功能需要 TiDB v3.0.0-rc.1 及以上版本支持。
 ---
 
 # TiDB Binlog 集群运维

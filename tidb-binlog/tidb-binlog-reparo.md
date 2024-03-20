@@ -1,6 +1,7 @@
 ---
 title: Reparo 使用文档
 aliases: ['/docs-cn/dev/tidb-binlog/tidb-binlog-reparo/','/docs-cn/dev/reference/tidb-binlog/reparo/','/docs-cn/dev/reference/tools/tidb-binlog/reparo/']
+summary: Reparo 是 TiDB Binlog 的配套工具，用于增量恢复。通过 Drainer 将 binlog 输出到文件，使用 Reparo 解析并应用到 TiDB／MySQL 中。安装包位于 TiDB 离线工具包中。命令行参数包括日志输出信息等级设置、同步下游的并发数等。配置文件包括 data-dir、log-level、dest-type等设置。启动示例为 ./reparo -config reparo.toml。
 ---
 
 # Reparo 使用文档

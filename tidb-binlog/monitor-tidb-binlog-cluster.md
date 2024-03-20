@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 集群监控
 aliases: ['/docs-cn/dev/tidb-binlog/monitor-tidb-binlog-cluster/','/docs-cn/dev/reference/tidb-binlog/monitor/','/docs-cn/dev/how-to/monitor/tidb-binlog-monitor/','/docs-cn/dev/reference/tools/tidb-binlog/monitor/','/docs-cn/dev/how-to/monitor/tidb-binlog/']
+summary: TiDB Binlog 集群监控包括 Pump 和 Drainer 的监控指标，如存储大小、写入速率、延迟时间等。报警规则分为紧急、重要和警告级别，针对不同问题提供处理方法。紧急级别包括 Pump 存储错误，需要确认监控和查看日志。重要级别包括 Drainer 同步延迟，需检查 Pump 运行和目标库状态。警告级别包括 Pump 写入耗时、磁盘空间不足等，需确认磁盘性能和调整配置。
 ---
 
 # TiDB Binlog 集群监控

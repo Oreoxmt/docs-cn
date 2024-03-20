@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 集群部署
 aliases: ['/docs-cn/dev/tidb-binlog/deploy-tidb-binlog/','/docs-cn/dev/reference/tidb-binlog/deploy/','/docs-cn/dev/how-to/deploy/tidb-binlog/','/docs-cn/dev/reference/tools/tidb-binlog/deploy/']
+summary: TiDB Binlog 集群部署需要满足服务器要求，推荐使用 TiUP 部署 TiDB Binlog。也可以使用 Binary 部署 TiDB Binlog，需要下载 TiDB Binlog 安装包。部署时需注意配置文件和命令行参数。在运行 TiDB 时，需要保证至少一个 Pump 正常运行。 Drainer 不支持对 ignore schemas 的 table 进行 rename DDL 操作。
 ---
 
 # TiDB Binlog 集群部署

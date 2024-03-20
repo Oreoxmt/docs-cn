@@ -1,6 +1,7 @@
 ---
 title: Binlog Consumer Client 用户文档
 aliases: ['/zh/tidb/dev/binlog-slave-client','/docs-cn/dev/tidb-binlog/binlog-slave-client/','/docs-cn/dev/reference/tidb-binlog/binlog-slave-client/','/docs-cn/dev/reference/tools/tidb-binlog/binlog-slave-client/']
+summary: Drainer现在支持将binlog数据输出到Kafka，用户可以通过修改配置文件设置输出为Kafka。用户也可以自定义开发，了解Drainer写入到Kafka中的数据格式，并使用TiDB-Tools项目提供的Driver来读取Kafka中的binlog数据。用户需要配置Kafka地址、CommitTS、Offset、ClusterID和Topic等信息来使用Driver。目前仅提供了golang版本的Driver和示例代码，如果需要使用其他语言，用户需要自行开发程序读取Kafka中的binlog数据、解析数据、输出到下游。
 ---
 
 # Binlog Consumer Client 用户文档

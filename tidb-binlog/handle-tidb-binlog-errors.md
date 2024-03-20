@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 常见错误修复
 aliases: ['/docs-cn/dev/tidb-binlog/handle-tidb-binlog-errors/','/docs-cn/dev/reference/tidb-binlog/troubleshoot/error-handling/']
+summary: TiDB Binlog 常见错误修复。介绍了 Drainer 同步数据到 Kafka 时报错的解决方法，需要调整 Kafka 的配置参数。Pump 报错 "no space left on device" 的解决方法是清理磁盘空间，然后重启 Pump。Pump 启动时报错 "fail to notify all living drainer" 的解决方法是使用 binlogctl 工具查看所有 Drainer 的状态。需要确认所有 TiDB 实例均开启了 TiDB Binlog，并且运行状态正常。Pump 报错 `rpc error: code = ResourceExhausted desc = trying to send message larger than max` 的解决方法是在启动 Pump 时通过指定 `max-message-size` 来调整 Pump 可接受 gRPC message 的最大大小。Drainer 输出 file 格式的增量数据，在 v3.0.x 版本中没有清理机制，在 v4.0.x 版本中有基于时间的数据清理机制。
 ---
 
 # TiDB Binlog 常见错误修复

@@ -1,6 +1,7 @@
 ---
 title: TiDB Binlog 版本升级方法
 aliases: ['/docs-cn/dev/tidb-binlog/upgrade-tidb-binlog/','/docs-cn/dev/reference/tidb-binlog/upgrade/','/docs-cn/dev/how-to/upgrade/tidb-binlog/','/docs-cn/dev/reference/tools/tidb-binlog/upgrade/']
+summary: TiDB Binlog 版本升级方法介绍了手动部署的步骤，包括升级Pump和Drainer。同时也说明了从Kafka/Local版本升级到Cluster版本的流程，以及如何继续同步原来的checkpoint。强烈建议使用PITR作为数据恢复的替代方案。
 ---
 
 # TiDB Binlog 版本升级方法
