@@ -1,6 +1,7 @@
 ---
 title: TiDB 产品常见问题
 aliases: ['/docs-cn/dev/faq/tidb-faq/','/docs-cn/dev/faq/tidb/']
+summary: TiDB是PingCAP公司自主设计、研发的开源分布式关系型数据库，支持在线事务处理与在线分析处理。具备水平扩容、高可用、实时HTAP、云原生的特性。TiDB适合各种应用场景，使用简单，兼容MySQL协议，支持分布式事务。除了官方文档外，还可通过官方博客、社区论坛、PingCAP Education获取TiDB知识。用户名长度限制为32个字符，最大列数为1017，单行大小不超过6MB。TiDB不支持XA，但支持对列存储引擎的高并发操作。
 ---
 
 # TiDB 产品常见问题
