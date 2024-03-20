@@ -1,6 +1,7 @@
 ---
 title: Titan 配置
 aliases: ['/docs-cn/dev/storage-engine/titan-configuration/','/docs-cn/dev/reference/titan/configuration/','/docs-cn/dev/titan-configuration/']
+summary: Titan 配置包括开启、关闭、数据迁移、常用配置参数和 Level Merge 功能。从 TiDB v7.6.0 开始，默认启用 Titan，支持宽表写入场景和 JSON。数据迁移是逐步进行的，可以通过全量 Compaction 加快迁移速度。常用配置参数包括 `min-blob-size`、`blob-file-compression`、`blob-cache-size` 等。关闭 Titan 可以通过设置 `blob-run-mode` 参数。Level Merge 可以提升范围查询性能并降低 Titan GC 对前台写入性能的影响。
 ---
 
 # Titan 配置
