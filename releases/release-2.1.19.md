@@ -1,6 +1,7 @@
 ---
 title: TiDB 2.1.19 Release Notes
 aliases: ['/docs-cn/dev/releases/release-2.1.19/','/docs-cn/dev/releases/2.1.19/']
+summary: TiDB 2.1.19 发布，包含了多项 SQL 优化器和执行引擎的修复和改进。TiKV 修复了 Region merge 和 Compact log 过程中的系统 panic 问题。PD 提升了获取 Region 列表的 HTTP API 性能，并升级了 etcd。TiDB Binlog 优化了节点状态信息输出和监控指标，并修复了一些问题。TiDB Ansible 增加了对应的告警监控项，并升级了 TiSpark 版本。
 ---
 
 # TiDB 2.1.19 Release Notes

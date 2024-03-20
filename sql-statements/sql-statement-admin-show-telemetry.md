@@ -1,6 +1,7 @@
 ---
 title：ADMIN SHOW TELEMETRY
 summary：TiDB 数据库中 ADMIN SHOW TELEMETRY 的使用概况。
+summary: ADMIN SHOW TELEMETRY 语句用于查看通过遥测功能收集到并分享给 PingCAP 的使用信息。该语句是 TiDB 对 MySQL 语法的扩展。可通过系统变量 tidb_enable_telemetry 控制是否开启遥测。
 ---
 
 # ADMIN SHOW TELEMETRY

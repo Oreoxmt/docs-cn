@@ -1,6 +1,7 @@
 ---
 title: ADMIN
 aliases: ['/docs-cn/dev/sql-statements/sql-statement-admin/','/docs-cn/dev/reference/sql/statements/admin/']
+summary: TiDB的`ADMIN`语句是用于查看TiDB状态和对表数据进行校验的扩展语法。它包括了`ADMIN RELOAD`、`ADMIN PLUGIN`、`ADMIN ... BINDINGS`、`ADMIN REPAIR TABLE`、`ADMIN SHOW NEXT_ROW_ID`和`ADMIN SHOW SLOW`等扩展语句。这些语句可以用于重新加载表达式下推的黑名单、启用或禁用插件、持久化SQL Plan绑定信息、修复表的元信息、查看表中特殊列的详情以及查看未执行完成的DDL任务。
 ---
 
 # ADMIN

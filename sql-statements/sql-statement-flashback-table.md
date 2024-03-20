@@ -1,6 +1,7 @@
 ---
 title: FLASHBACK TABLE
 aliases: ['/docs-cn/dev/sql-statements/sql-statement-flashback-table/','/docs-cn/dev/reference/sql/statements/flashback-table/']
+summary: TiDB 4.0 引入了`FLASHBACK TABLE`语法，可在GC生命周期内恢复被`DROP`或`TRUNCATE`删除的表和数据。使用系统变量`tidb_gc_life_time`配置历史版本保留时间，默认为`10m0s`。使用`SELECT * FROM mysql.tidb WHERE variable_name = 'tikv_gc_safe_point'`查询当前`safePoint`。注意，若表在`tikv_gc_safe_point`之后被删除，则可用`FLASHBACK TABLE`恢复。在开启TiDB Binlog时，需注意下游集群是否支持`FLASHBACK TABLE`，以及GC生命周期需长于主集群。若Binlog同步出错，需在Binlog过滤掉该表，手动重新导入数据。
 ---
 
 # FLASHBACK TABLE

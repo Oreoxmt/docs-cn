@@ -1,6 +1,7 @@
 ---
 title: TiDB 2.1.16 Release Notes
 aliases: ['/docs-cn/dev/releases/release-2.1.16/','/docs-cn/dev/releases/2.1.16/']
+summary: TiDB 2.1.16 发布，修复了 SQL 优化器和执行引擎的多个问题。TiKV 支持逆向 raw_scan 和 raw_batch_scan 接口。TiDB Binlog 和 TiDB Lightning 均有功能修复和增加。TiDB Ansible 也有多项更新和修复。
 ---
 
 # TiDB 2.1.16 Release Notes

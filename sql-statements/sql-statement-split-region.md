@@ -1,6 +1,7 @@
 ---
 title: Split Region 使用文档
 aliases: ['/docs-cn/dev/sql-statements/sql-statement-split-region/','/docs-cn/dev/reference/sql/statements/split-region/']
+summary: TiDB 中的 Split Region 功能允许根据指定的参数预先切分表的 Region，并将其打散到各个 TiKV 上。可以使用均匀切分语法或不均匀切分语法来实现。预切分的 Region 数量和打散完成比率可以通过 `SPLIT` 语句返回结果查看。需要注意 `tidb_wait_split_region_finish` 和 `tidb_wait_split_region_timeout` 会影响 `SPLIT` 语句的行为。此外，使用带有 `SHARD_ROW_ID_BITS` 的表时，可以配合 `PRE_SPLIT_REGIONS` 一起使用来预均匀切分 Region。
 ---
 
 # Split Region 使用文档

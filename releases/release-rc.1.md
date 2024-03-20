@@ -1,6 +1,7 @@
 ---
 title: TiDB RC1 Release Notes
 aliases: ['/docs-cn/dev/releases/release-rc.1/','/docs-cn/dev/releases/rc1/']
+summary: TiDB RC1于2016年12月23日发布，TiKV提升了写入速度和稳定性，支持更大规模的数据和提供了新的API。PD优化了调度策略框架和添加了label支持。TiDB改进了SQL查询优化器和重构了time相关类型的实现，提升了和MySQL的兼容性。工具方面，Loader兼容了Percona的Mydumper数据格式，并提供了一键部署工具。
 ---
 
 # TiDB RC1 Release Notes

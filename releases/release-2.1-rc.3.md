@@ -1,6 +1,7 @@
 ---
 title: TiDB 2.1 RC3 Release Notes
 aliases: ['/docs-cn/dev/releases/release-2.1-rc.3/','/docs-cn/dev/releases/21rc3/']
+summary: TiDB 2.1 RC3 版本对系统稳定性、兼容性、优化器和执行引擎做了很多改进。包括修复语句内包含内嵌的 `LEFT OUTER JOIN` 时结果不正确的问题，增强 `JOIN` 语句上的 predicate pushdown 优化规则，优化事务内读请求的性能等。PD 新增获取按大小逆序排序的 Region 列表 API (/size) 和更详细的 Region API 信息。TiKV 优化函数下推的并发支持，新增对 Log 函数、`sha1` 函数、`truncate_int` 函数、`year` 函数和`truncate_real` 函数的支持，修复了时间函数相关的报错行为和字符串解析成时间与 TiDB 不一致的问题。
 ---
 
 # TiDB 2.1 RC3 Release Notes

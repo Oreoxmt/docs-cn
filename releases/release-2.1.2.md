@@ -1,6 +1,7 @@
 ---
 title: TiDB 2.1.2 Release Notes
 aliases: ['/docs-cn/dev/releases/release-2.1.2/','/docs-cn/dev/releases/2.1.2/']
+summary: TiDB 2.1.2 版本发布，改进了系统兼容性和稳定性。TiDB Binlog 兼容 Kafka 版本，完善了滚动升级下 TiDB 的退出机制。修复了多个问题，包括 generated column 增加索引 panic、语句有 TIDB_SMJ Hint 时优化器无法找到正确执行计划等。PD 修复了 Region Merge 相关的 Region 信息更新问题。TiKV 支持以日为时间单位的配置格式，并解决了配置兼容性问题，修复了 Approximate Size Split 可能会 panic 的问题和两个 Region merge 相关问题。TiDB Lightning 支持最小 TiDB 集群版本为 2.1.0，修复了解析包含 JSON 类型数据的文件内容出错和使用 checkpoint 重启后出现的错误。TiDB Binlog 消除了往 Kafka 写数据的一些瓶颈点，TiDB 支持写 Kafka 版本的 TiDB Binlog。
 ---
 
 # TiDB 2.1.2 Release Notes

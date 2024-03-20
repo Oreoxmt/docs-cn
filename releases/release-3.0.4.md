@@ -1,6 +1,7 @@
 ---
 title: TiDB 3.0.4 Release Notes
 aliases: ['/docs-cn/dev/releases/release-3.0.4/','/docs-cn/dev/releases/3.0.4/']
+summary: TiDB 3.0.4 发布，新增系统表用于排查 SQL 性能问题，改进 TiKV 支持批量 Split 和空 Split 命令，优化慢日志输出内容，修复特殊语法问题，感谢社区贡献者。
 ---
 
 # TiDB 3.0.4 Release Notes
