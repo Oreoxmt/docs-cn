@@ -1,6 +1,7 @@
 ---
 title: TiDB Dashboard 流量可视化页面
 aliases: ['/docs-cn/dev/dashboard/dashboard-key-visualizer/','/docs-cn/dev/how-to/monitor/key-visualizer/','/docs-cn/dev/key-visualizer-monitoring-tool/']
+summary: TiDB Dashboard的流量可视化页面可用于分析集群使用模式和排查流量热点。通过登录TiDB Dashboard或在浏览器中访问指定地址，可以查看流量情况。页面展示了热力图、Region、热点等信息。用户可以通过设置、观察时间段或Region范围、调整亮度、选择指标等功能来进行数据分析。同时，页面也提供了常见热力图解读和解决热点问题的方法。
 ---
 
 # TiDB Dashboard 流量可视化页面

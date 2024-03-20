@@ -1,6 +1,7 @@
 ---
 title: TiDB Dashboard 介绍
 aliases: ['/docs-cn/dev/dashboard/dashboard-intro/']
+summary: TiDB Dashboard 是 TiDB 4.0 版本后提供的图形化界面，用于监控和诊断 TiDB 集群。它内置于 TiDB 的 PD 组件中，无需独立部署。除了可以查看集群整体运行概况和组件及主机运行状态外，还可以分析集群读写流量分布、列出所有 SQL 查询的执行信息、诊断常见集群问题并生成报告等功能。同时，还可以查询所有组件日志、预估资源管控容量和收集分析各个组件的性能数据。
 ---
 
 # TiDB Dashboard 介绍

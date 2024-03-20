@@ -1,6 +1,7 @@
 ---
 title: TiDB Dashboard 常见问题
 aliases: ['/docs-cn/dev/dashboard/dashboard-faq/']
+summary: TiDB Dashboard 常见问题汇总，包括访问、界面功能等常见问题及解决方法。需注意防火墙或反向代理配置、双网卡部署访问问题、监控依赖于已部署的Prometheus实例等。升级TiUP版本、关闭prepared-plan-cache功能、手动部署NgMonitoring组件等方法可解决部分问题。集群升级后出现字段不兼容错误，需清理浏览器缓存。
 ---
 
 # TiDB Dashboard 常见问题
