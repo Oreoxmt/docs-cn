@@ -1,175 +1,86 @@
 
 <table>
-  <thead>
-    <tr>
-      <th>分类</th>
-      <th>功能</th>
-      <th>描述</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>可扩展性与性能</td>
-      <td>支持并行运行多个 <code>ADD INDEX</code> 语句</td>
-      <td>通过该功能，为同一个表添加多个索引的任务可以变为并发运行。以前同时运行 2 个添加索引语句 X 和 Y 需要花费 X 的时间 + Y 的时间，现在在一个 SQL 语句中同时添加索引 X 和 Y，并发运行后，添加索引总耗时显著减少了。尤其是在宽表的场景，内部测试数据显示同时添加多个索引的性能最高可提升 94%。</td>
-    </tr>
-    <tr>
-      <td rowspan="3">稳定性与高可用</td>
-      <td>优化<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-global-sort" target="_blank">全局排序</a>（实验特性，从 v7.4.0 开始引入）</td>
-      <td>TiDB v7.2.0 中引入了<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-distributed-execution-framework" target="_blank">后端任务分布式并行执行框架</a>。在 v7.4.0 中，TiDB 以该框架为基础，引入全局排序，消除了数据 reorg 任务期间临时无序数据导致的不必要的 I/O、CPU 和内存峰值。全局排序利用外部对象存储（目前为 Amazon S3）来存储系统作业期间的中间文件，提高灵活性并降低成本。<code>ADD INDEX</code> 和 <code>IMPORT INTO</code> 等操作将更快速灵活、稳定可靠，且运行成本较低。</td>
-    </tr>
-    <tr>
-      <td>资源管控支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control#管理后台任务" target="_blank">自动管理后台任务</a>（实验特性，从 v7.4.0 开始引入）</td>
-      <td>从 v7.1.0 开始，<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control" target="_blank">资源管控</a>成为正式功能，该特性有助于缓解不同工作负载间的资源与存储访问干扰。TiDB v7.4.0 将此资源控制应用于后台任务的优先级。资源管控可以识别和管理后台任务执行的优先级，例如自动收集统计信息、备份和恢复、TiDB Lightning 批量数据导入以及在线 DDL。未来，所有后台任务都将纳入资源管控。</td>
-    </tr>
-    <tr>
-      <td>资源管控支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control#管理资源消耗超出预期的查询-runaway-queries">管理资源消耗超出预期的查询</a>（实验特性，从 v7.2.0 开始引入）</td>
-      <td><a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-resource-control" target="_blank">资源管控</a>是一个通过资源组 (Resource Group) 对工作负载进行资源隔离的框架，但它并不对每个资源组内的查询产生影响。TiDB v7.2.0 引入了运行超出预期的查询 (Runaway Queries) 时的资源控制功能，你可以控制 TiDB 如何识别和处理每个资源组的查询。根据需要，长时间运行的查询可能会被终止或节流，你可以通过准确的 SQL 文本、SQL Digest 或 Plan Digest 来识别查询。在 TiDB v7.3.0，你可以主动监视已知的不良查询，类似于数据库级别的 SQL Blocklist。</td>
-    </tr>
-    <tr>
-      <td>SQL</td>
-      <td>MySQL 8.0 兼容性（从 v7.4.0 开始引入）</td>
-      <td>MySQL 8.0 的默认字符集为 utf8mb4，其默认排序规则是 <code>utf8mb4_0900_ai_ci</code>。TiDB v7.4.0 增强了与 MySQL 8.0 的兼容性。现在你可以更轻松地将在 MySQL 8.0 中使用默认排序规则创建的数据库迁移或复制到 TiDB。</td>
-    </tr>
-    <tr>
-      <td rowspan="4">数据库管理与可观测性</td>
-      <td><a href="https://docs.pingcap.com/zh/tidb/v7.5/sql-statement-import-into"><code>IMPORT INTO</code></a> 语句集成 TiDB Lightning 物理导入模式的能力 (GA)</td>
-      <td>在 v7.2.0 之前，如需基于文件系统进行数据导入，你需要安装 <a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-lightning-overview">TiDB Lightning</a> 并使用其物理导入模式。目前，该功能已集成到 <code>IMPORT INTO</code> 语句中，你可以使用此语句快速导入数据，而无需安装任何额外的工具。该语句还支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/tidb-distributed-execution-framework" target="_blank">分布式执行框架</a>，可分布式执行导入任务，提升了大规模数据导入时的效率。</td>
-    </tr>
-    <tr>
-      <td>选择<a href="https://docs.pingcap.com/zh/tidb/v7.5/system-variables#tidb_service_scope-从-v740-版本开始引入" target="_blank">适用的 TiDB 节点</a>分布式执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> SQL 语句 (GA)</td>
-      <td>你可以灵活选择在现有 TiDB 节点或新增 TiDB 节点执行 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> SQL 语句。该方法可以实现与其他 TiDB 节点的资源隔离，确保在执行上述语句时的最佳性能，并避免对已有业务造成性能影响。在 v7.5.0 中，该功能正式 GA。</td>
-    </tr>
-    <tr>
-      <td>DDL 任务支持<a href="https://docs.pingcap.com/zh/tidb/v7.5/ddl-introduction#ddl-相关的命令介绍">暂停和恢复操作</a> (GA)</td>
-      <td>添加索引可能会消耗大量资源并影响在线流量。即使在资源组中进行了限制，或对标记的节点进行了隔离，你仍然可能需要在紧急情况下暂停这些任务。从 v7.2.0 开始，TiDB 原生支持同时暂停任意数量的后台任务，释放所需的资源，无需取消或重启任务。</td>
-    </tr>
-    <tr>
-      <td>TiDB Dashboard 性能分析支持 TiKV 堆内存分析<a href="https://docs.pingcap.com/zh/tidb/v7.5/dashboard-profiling" target="_blank"></a></td>
-      <td>在之前版本中调查 TiKV OOM 或内存使用高的问题时，往往需要在实例环境下手动运行 <code>jeprof</code> 生成 Heap Profile。从 v7.5.0 开始，TiKV 支持远程处理 Heap Profile，你可以通过 TiDB Dashboard 直接获取 Heap Profile 的火焰图和调用图。该功能提供了与 Go 堆内存分析同等的简单易用体验。</td>
-    </tr>
-  </tbody>
+<thead>
+  <tr>
+    <th>分类</th>
+    <th>功能/增强</th>
+    <th>描述</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td rowspan="4">可扩展性与性能</td>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v8.0/pd-microservices">支持拆分 PD 功能为微服务，提高可扩展性（实验特性）</a></td>
+    <td>Placement Driver (PD) 包含了多个确保 TiDB 集群能正常运行的关键模块。当集群的工作负载增加时，PD 中各模块的资源消耗也会随之增加，造成这些模块间功能的相互干扰，进而影响整个集群的服务质量。为了解决该问题，从 v8.0.0 起，TiDB 支持将 PD 的 TSO 和调度模块拆分成可独立部署的微服务，可以显著降低当集群规模扩大时模块间的互相影响。通过这种架构，TiDB 能够支持更大规模、更高负载的集群。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v8.0/system-variables#tidb_dml_type-从-v800-版本开始引入">用于处理更大事务的批量 DML 执行方式（实验特性）</a></td>
+    <td>大批量的 DML 任务，例如大规模的清理任务、连接或聚合，可能会消耗大量内存，并且在非常大的规模上受到限制。批量 DML (<code>tidb_dml_type = "bulk"</code>) 是一种新的 DML 类型，用于更高效地处理大批量 DML 任务，同时提供事务保证并减轻 OOM 问题。该功能与用于数据加载的导入、加载和恢复操作不同。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v8.0/br-snapshot-guide#恢复快照备份数据">提升 BR 快照恢复速度 (GA) </a></td>
+    <td>通过该功能，BR 可以充分利用集群的规模优势，使 TiKV 集群中的所有节点都能参与到数据恢复的准备阶段，从而显著提升大规模集群中大数据集的恢复速度。实际测试表明，该功能可将下载带宽打满，下载速度可提升 8 到 10 倍，端到端恢复速度大约提升 1.5 到 3 倍。</td>
+  </tr>
+  <tr>
+    <td>增强在有大量表时缓存 schema 信息的稳定性</td>
+    <td>对于使用 TiDB 作为多租户应用程序记录系统的 SaaS 公司，经常需要存储大量的表。在以前的版本中，尽管支持处理百万级或更大数量的表，但可能会影响用户体验。TiDB v8.0.0 通过以下增强功能改善了这一问题：
+  <ul>
+    <li>引入新的 <a href="https://docs.pingcap.com/zh/tidb/v8.0/system-variables#tidb_schema_cache_size-从-v800-版本开始引入">schema 缓存系统</a>，为表元数据提供了懒加载的 LRU (Least Recently Used) 缓存，并更有效地管理 schema 版本变更。</li>
+    <li>支持在 <code>auto analyze</code> 中配置<a href="https://docs.pingcap.com/zh/tidb/v8.0/system-variables#tidb_enable_auto_analyze_priority_queue-从-v800-版本开始引入">优先队列</a>，使流程更加流畅，并在大量表的情况下提高稳定性。</li>
+  </ul>
+    </td>
+  </tr>
+  <tr>
+    <td rowspan="1">数据库管理与可观测性</td>
+    <td>支持观测索引使用情况 </td>
+    <td>正确的索引设计是提升数据库性能的重要前提。TiDB v8.0.0 引入内存表 <a href="https://docs.pingcap.com/zh/tidb/v8.0/information-schema-tidb-index-usage"><code>INFORMATION_SCHEMA.TIDB_INDEX_USAGE</code></a> 和视图 <a href="https://docs.pingcap.com/zh/tidb/v8.0/sys-schema-unused-indexes"><code>sys.schema_unused_indexes</code></a> ，用于记录索引的使用情况。该功能有助于用户评估数据库中索引的效率并优化索引设计。</td>
+  </tr>
+  <tr>
+    <td rowspan="2">数据迁移</td>
+    <td>TiCDC 支持 <a href="https://docs.pingcap.com/zh/tidb/v8.0/ticdc-simple-protocol">Simple 协议</a> </td>
+    <td>TiCDC 支持了新的 Simple 消息协议，该协议通过在 DDL 和 BOOTSTRAP 事件中嵌入表的 schema 信息，实现了对 schema 信息的动态追踪 (in-band schema tracking)。</td>
+  </tr>
+  <tr>
+    <td>TiCDC 支持 <a href="https://docs.pingcap.com/zh/tidb/v8.0/ticdc-debezium">Debezium 协议</a> </td>
+    <td>TiCDC 支持了新的 Debezium 协议，TiCDC 可以使用该协议生成 Debezium 格式的数据变更事件并发送给 Kafka sink。</td>
+  </tr>
+</tbody>
 </table>
 
-
 <table>
-    <thead>
-      <tr>
-        <th>分类</th>
-        <th>功能</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td rowspan="3">稳定性与高可用</td>
-        <td>引入<a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-global-sort" target="_blank">全局排序能力</a>，提升<code>IMPORT INTO</code>和<code>ADD INDEX</code>任务的性能和稳定性（实验特性）</td>
-        <td>在 v7.4.0 以前，使用<a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-distributed-execution-framework" target="_blank">分布式并行执行框架</a>执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> 等任务时，只能对部分数据进行局部排序。这导致 TiKV 需要采取额外操作，并且在将数据导入到 TiKV 之前，TiDB 节点还需要为其分配本地磁盘空间以进行排序。<br/>随着 v7.4.0 引入全局排序特性，可以将数据暂时存储在外部存储（如 S3）中进行全局排序后再导入到 TiKV 中。这一改进降低了 TiKV 对资源的额外消耗，并显著提高了 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> 等操作的性能和稳定性。</td>
-      </tr>
-      <tr>
-        <td><a href="https://docs.pingcap.com/zh/tidb/v7.4/tidb-resource-control#管理后台任务" target="_blank">资源管控</a>支持自动管理后台任务（实验特性）</td>
-        <td>从 v7.1.0 开始，资源管控成为正式功能，该特性有助于缓解不同工作负载间的资源与存储访问干扰。TiDB v7.4.0 将此资源控制应用于后台任务。资源管控可以识别和管理后台任务，例如自动收集统计信息、备份和恢复、TiDB Lightning 批量数据导入以及在线 DDL。未来，所有后台任务都将纳入资源管控。</td>
-      </tr>
-      <tr>
-        <td>TiFlash 支持<a href="https://docs.pingcap.com/zh/tidb/v7.4/tiflash-disaggregated-and-s3" target="_blank">存储计算资源分离和 S3 共享存储</a> (GA) </td>
-        <td>TiFlash 存算分离架构和 S3 共享存储成为正式功能：
-          <ul>
-            <li>支持分离 TiFlash 的存储和计算资源，提升 HTAP 资源的弹性能力。</li>
-            <li>支持基于 S3 的存储引擎，以更低的成本提供共享存储。</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td rowspan="2">SQL</td>
-        <td>TiDB 支持完整的<a href="https://docs.pingcap.com/zh/tidb/v7.4/partitioned-table#将分区表转换为非分区表" target="_blank">分区类型管理功能</a> </td>
-        <td>在 v7.4.0 之前，Range/List 分区表支持分区管理操作包括 <code>TRUNCATE</code>、<code>EXCHANGE</code>、<code>ADD</code>、<code>DROP</code>、<code>REORGANIZE</code> 等，Hash/Key 分区表支持分区管理操作包括 <code>ADD</code> 和 <code>COALESCE</code> 等。
-        <p>现在 TiDB 新增支持了以下分区类型管理操作：</p>
-        <ul>
-            <li>将分区表转换为非分区表</li>
-            <li>对现有的非分区表进行分区</li>
-            <li>修改现有分区表的分区类型</li>
-          </ul>
-        </td>
-      </tr>
-      <tr>
-        <td>MySQL 8.0 兼容性：支持<a href="https://docs.pingcap.com/zh/tidb/v7.4/character-set-and-collation#支持的字符集和排序规则" target="_blank">排序规则 <code>utf8mb4_0900_ai_ci</code></a></td>
-        <td>MySQL 8.0 的一个显著变化是默认字符集更改为 utf8mb4，其默认排序规则是 <code>utf8mb4_0900_ai_ci</code>。TiDB v7.4.0 增强了与 MySQL 8.0 的兼容性。现在你可以更轻松地将在 MySQL 8.0 中使用默认排序规则创建的数据库迁移或复制到 TiDB。</td>
-      </tr>
-      <tr>
-        <td>数据库管理与可观测性</td>
-        <td>选择<a href="https://docs.pingcap.com/zh/tidb/v7.4/system-variables#tidb_service_scope-从-v740-版本开始引入" target="_blank">适用的 TiDB 节点</a>来并行执行 <code>ADD INDEX</code> 或 <code>IMPORT INTO</code> SQL 语句（实验特性）</td>
-        <td>你可以选择在现有 TiDB 节点、或者新增 TiDB 节点执行 <code>ADD INDEX</code> 和 <code>IMPORT INTO</code> SQL 语句。该方法可以实现与其他 TiDB 节点的资源隔离，确保在执行上述语句时的最佳性能，并避免对已有业务造成性能影响。</td>
-      </tr>
-    </tbody>
-</table>
-
-
-<table>
-    <thead>
-      <tr>
-        <th>分类</th>
-        <th>功能</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>可扩展性与性能</td>
-        <td>TiDB Lightning 支持 <a href="https://docs.pingcap.com/zh/tidb/v7.3/partitioned-raft-kv">Partitioned Raft KV</a>（实验特性）</td>
-        <td>TiDB Lightning 的数据导入服务支持新的 Partitioned Raft KV 架构，为 Partitioned Raft KV 在 TiDB 后续版本中 GA 做好准备。
-        </td>
-      </tr>
-      <tr>
-        <td rowspan="2">稳定性与高可用</td>
-        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/tidb-lightning-physical-import-mode-usage#冲突数据检测">TiDB Lightning 引入冲突数据的自动检测和处理机制</a></td>
-        <td>TiDB Lightning 物理导入模式支持新版本的冲突检测机制，支持在遇到数据冲突时替换 (<code>replace</code>) 或忽略 (<code>ignore</code>) 冲突数据的语义。TiDB Lightning 会自动处理冲突数据，同时提高了冲突处理的性能。</td>
-      </tr>
-      <tr>
-        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/tidb-resource-control#query-watch-语句说明">手动标记资源使用超出预期的查询</a>（实验特性）</td>
-        <td>查询耗费的时间有时会超出预期。通过资源组新增的 Runaway Queries 监控列表，你可以设置降低 Runaway Queries 的优先级或终止查询，从而更有效地管理查询。该功能允许算子在资源组级别通过匹配 SQL 文本、SQL digest 或执行计划标记查询，并对这些查询进行处理，从而更好地控制非预期的大型查询可能对集群产生的影响。</td>
-      </tr>
-      <tr>
-        <td>SQL</td>
-        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/optimizer-hints">添加更多优化器提示，加强对算子的控制，提升查询稳定性</a></td>
-        <td>新增优化器提示：<code>NO_INDEX_JOIN()</code>、<code>NO_MERGE_JOIN()</code>、<code>NO_INDEX_MERGE_JOIN()</code>、<code>NO_HASH_JOIN()</code>、<code>NO_INDEX_HASH_JOIN()</code></td>
-      </tr>
-      <tr>
-        <td>数据库管理与可观测性</td>
-        <td><a href="https://docs.pingcap.com/zh/tidb/v7.3/sql-statement-show-analyze-status">显示统计信息收集的进度</a></td>
-        <td>支持使用 <code>SHOW ANALYZE STATUS</code> 语句或通过 <code>mysql.analyze_jobs</code> 系统表查看 <code>ANALYZE</code> 任务的进度。</td>
-      </tr>
-    </tbody>
-</table>
-
-
-<table>
-    <thead>
-      <tr>
-        <th>分类</th>
-        <th>功能</th>
-        <th>描述</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td rowspan="2">可扩展性与性能</td>
-        <td>资源组支持<a href="https://docs.pingcap.com/zh/tidb/v7.2/tidb-resource-control#管理资源消耗超出预期的查询-runaway-queries">管理资源消耗超出预期的查询</a>（实验特性）</td>
-        <td>通过此功能，你可以更细粒度地管理执行时间超时的查询，根据查询的不同类型实现不同的行为。符合指定阈值的查询将按照你的设置被降低优先级或者终止执行。
-        </td>
-      </tr>
-      <tr>
-        <td>TiFlash 支持 <a href="https://docs.pingcap.com/zh/tidb/v7.2/tiflash-pipeline-model">Pipeline 执行模型</a>（实验特性）</td>
-        <td>TiFlash 支持 Pipeline 执行模型，优化对线程资源的控制。</td>
-      </tr>
-      <tr>
-        <td rowspan="1">SQL</td>
-        <td>支持新的 SQL 语句 <a href="https://docs.pingcap.com/zh/tidb/v7.2/sql-statement-import-into"><code>IMPORT INTO</code></a>，可以通过 TiDB 进行数据导入（实验特性）</td>
-        <td>TiDB 引入了一个新的 SQL 语句 <code>IMPORT INTO</code>。该语句集成了 TiDB Lightning 的物理导入模式的能力，使你无需单独部署和管理 TiDB Lightning 即可导入数据文件到 TiDB 中。例如，通过该语句，你可以直接从 Amazon S3 或 Google Cloud Storage (GCS) 远程导入数据到 TiDB 中。</td>
-      </tr>
-      <tr>
-        <td rowspan="2">数据库管理与可观测性</td>
-        <td>DDL 任务支持<a href="https://docs.pingcap.com/zh/tidb/v7.2/ddl-introduction#ddl-相关的命令介绍">暂停和恢复操作</a>（实验特性）</td>
-        <td>该功能允许临时暂停资源密集型的 DDL 操作，例如索引创建，以节省资源并最小化对在线流量的影响。当资源许可时，你可以无缝恢复 DDL 任务，而无需取消和重新开始。该功能提高了资源利用率，改善了用户体验，并简化了 schema 更改过程。</td>
-      </tr>
-    </tbody>
+<thead>
+  <tr>
+    <th>分类</th>
+    <th>功能/增强</th>
+    <th>描述</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td rowspan="4">可扩展性与性能</td>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/sql-plan-management#跨数据库绑定执行计划-cross-db-binding">跨数据库绑定执行计划</a></td>
+    <td>在处理上百个 schema 相同的数据库时，针对其中一个数据库的 SQL binding 通常也适用于其它的数据库。例如，在 SaaS 或 PaaS 数据平台中，每个用户通常各自维护单独的数据库，这些数据库具有相同的 schema 并运行着类似的 SQL。在这种情况下，逐一为每个数据库做 SQL 绑定是不切实际的。TiDB v7.6.0 引入跨数据库绑定执行计划，支持在所有 schema 相同的数据库之间匹配绑定计划。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/br-snapshot-guide#恢复快照备份数据">BR 快照恢复速度最高提升 10 倍（实验特性）</a></td>
+    <td>BR v7.6.0 实验性地引入了粗粒度打散 Region 算法，用于提升集群的快照恢复速度。在 TiKV 节点较多的集群中，该算法可显著提高集群资源利用率，更均匀地分配负载，同时更好地利用每个节点的网络带宽。在一些实际案例中，该特性可将恢复速度最高提升约 10 倍。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/ddl-v2">建表性能提升 10 倍（实验特性）</a></td>
+    <td>在 v7.6.0 中引入了新的 DDL 架构，批量建表的性能提高了 10 倍。这一重大改进极大地缩短了创建大量表所需的时间。特别是在 SaaS 场景中，快速创建大量表（从数万到数十万不等）是一个常见的挑战，使用该特性能显著提升 SaaS 场景的建表速度。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/tune-region-performance#通过-active-pd-follower-提升-pd-region-信息查询服务的扩展能力">通过 Active PD Follower 提升 PD Region 信息查询服务的扩展能力（实验特性）</a></td>
+    <td>TiDB v7.6.0 实验性地引入了 Active PD Follower 特性，允许 PD follower 提供 Region 信息查询服务。在 TiDB 节点数量较多和 Region 数量较多的集群中，该特性可以提升 PD 集群处理 <code>GetRegion</code>、<code>ScanRegions</code> 请求的能力，减轻 PD leader 的 CPU 压力。</td>
+  </tr>
+  <tr>
+    <td rowspan="2">稳定性与高可用</td>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/tiproxy-overview">支持 TiProxy（实验特性）</a></td>
+    <td>全面支持 TiProxy，可通过部署工具轻松部署。TiProxy 可以管理和维护客户端与 TiDB 的连接，在滚动重启、升级以及扩缩容过程中保持连接。</td>
+  </tr>
+  <tr>
+    <td><a href="https://docs.pingcap.com/zh/tidb/v7.6/dm-compatibility-catalog">Data Migration (DM) 正式支持迁移 MySQL 8.0 (GA)</a></td>
+    <td>在 v7.6.0 之前，DM 迁移 MySQL 8.0 仅为实验特性，不能用于生产环境。TiDB v7.6.0 增强了该功能的稳定性、兼容性，可在生产环境帮助你平滑、快速地将数据从 MySQL 8.0 迁移到 TiDB。在 v7.6.0 中，该功能正式 GA。</td>
+  </tr>
+</tbody>
 </table>
