@@ -1146,6 +1146,7 @@ pd-ctl resource-manager config controller set ltb-max-wait-duration 30m
 >> scheduler show                                         // 显示所有已经创建的 schedulers
 >> scheduler add grant-leader-scheduler 1                 // 把 store 1 上的所有 Region 的 leader 调度到 store 1
 >> scheduler add evict-leader-scheduler 1                 // 把 store 1 上的所有 Region 的 leader 从 store 1 调度出去
+>> scheduler config evict-leader-scheduler                // v4.0.0 起，展示该调度器具体在哪些 store 上
 >> scheduler config evict-leader-scheduler add-store 2    // 为 store 2 添加 leader 驱逐调度
 >> scheduler config evict-leader-scheduler delete-store 2 // 为 store 2 移除 leader 驱逐调度
 >> scheduler add shuffle-leader-scheduler                 // 随机交换不同 store 上的 leader
@@ -1307,13 +1308,13 @@ scheduler config balance-hot-region-scheduler  // 显示 balance-hot-region 调�
 
 用于查看和管理 `evict-leader-scheduler` 的配置。
 
-- 使用 `add-store` 子命令，为指定的 store 添加 leader 驱逐调度：
+- 在已有 `evict-leader-scheduler` 时，使用 `add-store` 子命令，为指定的 store 添加 leader 驱逐调度：
 
     ```bash
     scheduler config evict-leader-scheduler add-store 2       // 为 store 2 添加 leader 驱逐调度
     ```
 
-- 使用 `delete-store` 子命令，移除指定 store 的 leader 驱逐调度：
+- 在已有 `evict-leader-scheduler` 时，使用 `delete-store` 子命令，移除指定 store 的 leader 驱逐调度：
 
     ```bash
     scheduler config evict-leader-scheduler delete-store 2    // 为 store 2 移除 leader 驱逐调度
