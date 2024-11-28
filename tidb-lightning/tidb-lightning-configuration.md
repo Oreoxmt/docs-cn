@@ -63,7 +63,7 @@ TiDB Lightning 的配置文件分为“全局”和“任务”两种类别，�
 
 [lightning]
 # 启动之前检查集群是否满足最低需求，以及运行过程中检查 TiKV 的可用存储空间是否大于 10%。
-# check-requirements = true
+check-requirements = true
 
 # 引擎文件的最大并行数。
 # 每张表被切分成一个用于存储索引的“索引引擎”和若干存储行数据的“数据引擎”。
@@ -73,7 +73,7 @@ table-concurrency = 6
 
 # 数据的并发数。默认与逻辑 CPU 的数量相同。
 # 混合部署的情况下可以将其大小配置为逻辑 CPU 数的 75%，以限制 CPU 的使用。
-# region-concurrency =
+region-concurrency =
 
 # I/O 最大并发数。I/O 并发量太高时，会因硬盘内部缓存频繁被刷新
 # 而增加 I/O 等待时间，导致缓存未命中和读取速度降低。
@@ -88,7 +88,7 @@ io-concurrency = 5
 max-error = 0
 # 参数 task-info-schema-name 指定用于存储 TiDB Lightning 执行结果的数据库。
 # 要关闭该功能，需要将该值设置为空字符串。
-# task-info-schema-name = 'lightning_task_info'
+task-info-schema-name = 'lightning_task_info'
 
 # 在并行导入模式下，在目标集群保存各个 TiDB Lightning 实例元信息的 schema 名字，默认为 "lightning_metadata"。
 # 如果未开启并行导入模式，无须设置此配置项。
@@ -97,16 +97,20 @@ max-error = 0
 # - 如果开启并行导入模式，需要确保导入使用的用户（对于 tidb.user 配置项）有权限创建和访问此配置对应的库。
 # - TiDB Lightning 在导入完成后会删除此 schema，因此不要使用已存在的库名配置该参数。
 meta-schema-name = "lightning_metadata"
+```
 
+```toml
 [security]
 # 指定集群中用于 TLS 连接的证书和密钥。
 # CA 的公钥证书。如果留空，则禁用 TLS。
-# ca-path = "/path/to/ca.pem"
+ca-path = "/path/to/ca.pem"
 # 此服务的公钥证书。
-# cert-path = "/path/to/lightning.pem"
+cert-path = "/path/to/lightning.pem"
 # 该服务的密钥。
-# key-path = "/path/to/lightning.key"
+key-path = "/path/to/lightning.key"
+```
 
+```toml
 [checkpoint]
 # 是否启用断点续传。
 # 导入数据时，TiDB Lightning 会记录当前表导入的进度。
@@ -125,12 +129,14 @@ driver = "file"
 # 若 driver = "mysql"，则 dsn 为“用户:密码@tcp(地址:端口)/”格式的 URL。
 # 若不设置该 URL，则默认会使用 [tidb] 部分指定的 TiDB 服务器来存储断点。
 # 为减少目标 TiDB 集群的压力，建议指定另一台兼容 MySQL 的数据库服务器来存储断点。
-# dsn = "/tmp/tidb_lightning_checkpoint.pb"
+dsn = "/tmp/tidb_lightning_checkpoint.pb"
 
 # 所有数据导入成功后是否保留断点。设置为 false 时为删除断点。
 # 保留断点有利于进行调试，但会泄漏关于数据源的元数据。
-# keep-after-success = false
+keep-after-success = false
+```
 
+```toml
 [conflict]
 # 从 v7.3.0 开始引入的新版冲突数据处理策略。默认值为 ""。从 v8.0.0 开始，TiDB Lightning 优化了物理导入模式和逻辑导入模式的冲突策略。
 # - ""：在物理导入模式下，不进行冲突数据检测和处理。如果源文件存在主键或唯一键冲突的记录，后续步骤会报错。在逻辑导入模式下，"" 策略将被转换为 "error" 策略处理。
@@ -142,24 +148,26 @@ driver = "file"
 # - "ignore"：遇到主键或唯一键冲突的数据时，保留旧的数据，忽略新的数据。仅当导入模式为逻辑导入模式时可以使用该选项。
 strategy = ""
 # 控制是否开启前置冲突检测，即导入数据到 TiDB 前，先检查所需导入的数据是否存在冲突。该参数默认值为 false，表示仅开启后置冲突检测。取值为 true 时，表示同时开启前置冲突检测和后置冲突检测。仅当导入模式为物理导入模式时可以使用该参数。冲突记录数量高于 1,000,000 的场景建议配置 `precheck-conflict-before-import = true`，可以提升冲突检测的性能，反之建议关闭。
-# precheck-conflict-before-import = false
+precheck-conflict-before-import = false
 # 控制 strategy 为 "replace" 或 "ignore" 时，能处理的冲突错误数的上限。仅在 strategy 为 "replace" 或 "ignore" 时可配置。默认为 10000。如果设置的值大于 10000，导入过程可能会出现性能下降的情况。
-# threshold = 10000
+threshold = 10000
 # 控制冲突数据记录表 (`conflict_records`) 中记录的冲突数据的条数上限，默认为 10000。
 # 从 v8.1.0 开始，TiDB Lightning 会自动将 `max-record-rows` 的值设置为 `threshold` 的值，并忽略用户输入，因此无需再单独配置 `max-record-rows`。`max-record-rows` 将在未来版本中废弃。
 # 在物理导入模式下，当 strategy 为 "replace" 时会记录被覆盖的冲突记录。
 # 在逻辑导入模式下，当 strategy 为 "ignore" 时会记录被忽略写入的冲突记录，当 strategy 为 "replace" 时，不会记录冲突记录。
-# max-record-rows = 10000
+max-record-rows = 10000
+```
 
+```toml
 [tikv-importer]
 # "local"：物理导入模式（Physical Import Mode），默认使用。适用于 TB 级以上大数据量，但导入期间下游 TiDB 无法对外提供服务。
 # "tidb"：逻辑导入模式 (Logical Import Mode)。TB 级以下数据量可以采用，下游 TiDB 可正常提供服务。
-# backend = "local"
+backend = "local"
 # 是否允许启动多个 TiDB Lightning 实例（物理导入模式）并行导入数据到一个或多个目标表。默认取值为 false。
 # 注意，该参数仅限目标表为空的场景使用。
 # 多个 TiDB Lightning 实例（物理导入模式）同时导入一张表时，此开关必须设置为 true。
 # 但前提是目标表不能存在数据，即所有的数据都只能是由 TiDB Lightning 导入。
-# parallel-import = false
+parallel-import = false
 
 # `duplicate-resolution` 参数从 v8.0.0 开始已被废弃，并将在未来版本中被移除。详情参考 <https://docs.pingcap.com/zh/tidb/stable/tidb-lightning-physical-import-mode-usage#旧版冲突检测从-v800-开始已被废弃>。
 # 物理导入模式设置是否检测和解决重复的记录（唯一键冲突）。
@@ -169,66 +177,66 @@ strategy = ""
 #          如果 `duplicate-resolution` 设置为 'none' 且 `conflict.strategy` 未设置，TiDB Lightning 会自动将 `conflict.strategy` 赋值为 ""。
 #  - 'remove'：如果 `duplicate-resolution` 设置为 'remove' 且 `conflict.strategy` 未设置，TiDB Lightning 会自动将 `conflict.strategy` 赋值为 "replace" 开启新版冲突检测。
 # 默认值为 'none'。
-# duplicate-resolution = 'none'
+duplicate-resolution = 'none'
 # 物理导入模式下，向 TiKV 发送数据时一次请求中最大 KV 数量。
 # 自 v7.2.0 开始，该参数废弃，设置后不再生效。如果希望调整一次请求中向 TiKV 发送的数据量，请使用 `send-kv-size` 参数。
-# send-kv-pairs = 32768
+send-kv-pairs = 32768
 # 物理导入模式下，向 TiKV 发送数据时一次请求的最大大小。
 # 默认值为 "16K"，一般情况下不建议调整该参数。
 # 该参数自 v7.2.0 开始引入。
-# send-kv-size = "16K"
+send-kv-size = "16K"
 # 物理导入模式向 TiKV 发送 KV 时是否启用压缩。目前只支持 Gzip 压缩算法，可填写 "gzip" 或者 "gz"。默认不启用压缩。
-# compress-kv-pairs = ""
+compress-kv-pairs = ""
 # 物理导入模式本地进行 KV 排序的路径。如果磁盘性能较低（如使用机械盘），建议设置成与 `data-source-dir` 不同的磁盘，这样可有效提升导入性能。
-# sorted-kv-dir = ""
+sorted-kv-dir = ""
 # 物理导入模式TiKV 写入 KV 数据的并发度。当 TiDB Lightning 和 TiKV 直接网络传输速度超过万兆的时候，可以适当增加这个值。
-# range-concurrency = 16
+range-concurrency = 16
 # 物理导入模式限制 TiDB Lightning 向每个 TiKV 节点写入的带宽大小，默认为 0，表示不限制。
-# store-write-bwlimit = "128MiB"
+store-write-bwlimit = "128MiB"
 
 # 使用物理导入模式时，配置 TiDB Lightning 本地临时文件使用的磁盘配额 (disk quota)。
 # 当磁盘配额不足时，TiDB Lightning 会暂停读取源数据以及写入临时文件的过程，
 # 优先将已经完成排序的 key-value 写入到 TiKV，TiDB Lightning 删除本地临时文件后，再继续导入过程。
 # 需要同时配合把 `backend` 设置为 `local` 模式才能生效。
 # 默认值为 MaxInt64 字节，即 9223372036854775807 字节。
-# disk-quota = "10GB"
+disk-quota = "10GB"
 
 # 物理导入模式是否通过 SQL 方式添加索引。
 # 默认为 `false`，表示 TiDB Lightning 会将行数据以及索引数据都编码成 KV pairs 后一同导入 TiKV，实现机制和历史版本保持一致。
 # 如果设置为 `true`，即 TiDB Lightning 会在导入数据完成后，使用 add index 的 SQL 来添加索引。
 # 通过 SQL 方式添加索引的优点是将导入数据与导入索引分开，可以快速导入数据，即使导入数据后，索引添加失败，也不会影响数据的一致性。
-# add-index-by-sql = false
+add-index-by-sql = false
 
 # 在使用 TiDB Lightning 导入多租户的 TiDB cluster 的场景下，指定对应的 key space 名称。
 # 默认取值为空字符串，表示 TiDB Lightning 会自动获取导入对应租户的 key space 名称；
 # 如果指定了值，则使用指定的 key space 名称来导入。
-# keyspace-name = ""
+keyspace-name = ""
 
 # 物理导入模式下，用于控制 TiDB Lightning 暂停 PD 调度的范围，可选值包括：
 # - "table"：仅暂停目标表数据所在 Region 的调度。默认值为 "table"。
 # - "global"：暂停全局调度。当导入数据到无业务流量的集群时，建议设置为 "global"，以避免其他调度的干扰。
 # 该参数自 v7.1.0 版本开始引入。注意："table" 选项仅适用于 TiDB v6.1.0 及以上版本的目标集群。
-# pause-pd-scheduler-scope = "table"
+pause-pd-scheduler-scope = "table"
 
 # 物理导入模式下，用于控制批量 Split Region 时的 Region 个数。
 # 每个 TiDB Lightning 实例最多同时 Split Region 的个数为：
 # region-split-batch-size * region-split-concurrency * table-concurrency
 # 该参数自 v7.1.0 版本开始引入，默认值为 `4096`。
-# region-split-batch-size = 4096
+region-split-batch-size = 4096
 
 # 物理导入模式下，用于控制 Split Region 时的并发度。默认值为 CPU 核数。
 # 该参数自 v7.1.0 版本开始引入。
-# region-split-concurrency =
+region-split-concurrency =
 
 # 物理导入模式下，用于控制 split 和 scatter 操作后等待 Region 上线的重试次数，默认值为 `1800`。
 # 重试符合指数回退策略，最大重试间隔为 2 秒。
 # 若两次重试之间有任何 Region 上线，该次操作不会被计为重试次数。
 # 该参数自 v7.1.0 版本开始引入。
-# region-check-backoff-limit = 1800
+region-check-backoff-limit = 1800
 
 # 物理导入模式下，用于控制本地文件排序的 I/O 区块大小。当 IOPS 成为瓶颈时，你可以调大该参数的值以缓解磁盘 IOPS，从而提升数据导入性能。
 # 该参数自 v7.6.0 版本开始引入。默认值为 "16KiB"。取值必须大于或等于 `1B`。注意，如果仅指定数字（如 `16`），则单位为 Byte 而不是 KiB。
-# block-size = "16KiB"
+block-size = "16KiB"
 
 # 在逻辑导入模式下，用于设置下游 TiDB 服务器上执行的每条 SQL 语句的最大值。
 # 该参数自 v8.0.0 版本开始引入。
@@ -237,17 +245,19 @@ strategy = ""
 # 默认值为 "96KiB"，在 TiDB Lightning 是集群中唯一的客户端时，这是导入速度的最佳值。
 # 由于 TiDB Lightning 的实现细节，该参数最大值为 96 KiB。设置更大的值将不会生效。
 # 你可以减小该值以减轻大事务对集群的压力。
-# logical-import-batch-size = "96KiB"
+logical-import-batch-size = "96KiB"
 
 # 在逻辑导入模式下，限制每个事务中可插入的最大行数。
 # 该参数自 v8.0.0 版本开始引入。默认值为 65536 行。
 # 当同时指定 `logical-import-batch-size` 和 `logical-import-batch-rows` 时，首先达到阈值的参数将生效。
 # 你可以减小该值以减轻大事务对集群的压力。
-# logical-import-batch-rows = 65536
+logical-import-batch-rows = 65536
 
 # 在逻辑导入模式下，该参数控制是否使用预处理语句和语句缓存来提高性能。默认值为 `false`。
 logical-import-prep-stmt = false
+```
 
+```toml
 [mydumper]
 # 设置文件读取的区块大小，确保该值比数据源的最长字符串长。
 read-block-size = "64KiB" # 默认值
@@ -300,11 +310,13 @@ strict-format = false
 
 # 如果 strict-format = true，TiDB Lightning 会将 CSV 大文件分割为多个文件块进行并行处理。
 # max-region-size 是分割后每个文件块的最大大小。
-# max-region-size = "256MiB" # 默认值
+max-region-size = "256MiB" # 默认值
 
 # 只导入与该通配符规则相匹配的表。详情见相应章节。
 filter = ['*.*', '!mysql.*', '!sys.*', '!INFORMATION_SCHEMA.*', '!PERFORMANCE_SCHEMA.*', '!METRICS_SCHEMA.*', '!INSPECTION_SCHEMA.*']
+```
 
+```toml
 # 配置 CSV 文件的解析方式。
 [mydumper.csv]
 # 字段分隔符，支持一个或多个字符，默认值为 ','。
@@ -337,13 +349,15 @@ backslash-escape = true
 # 如果有行以分隔符结尾，删除尾部分隔符。
 trim-last-separator = false
 
-# [[mydumper.files]]
+[[mydumper.files]]
 # 解析 AWS Aurora parquet 文件所需的表达式
-# pattern = '(?i)^(?:[^/]*/)*([a-z0-9_]+)\.([a-z0-9_]+)/(?:[^/]*/)*(?:[a-z0-9\-_.]+\.(parquet))$'
-# schema = '$1'
-# table = '$2'
-# type = '$3'
+pattern = '(?i)^(?:[^/]*/)*([a-z0-9_]+)\.([a-z0-9_]+)/(?:[^/]*/)*(?:[a-z0-9\-_.]+\.(parquet))$'
+schema = '$1'
+table = '$2'
+type = '$3'
+```
 
+```toml
 [tidb]
 # 目标集群的信息。tidb-server 的地址，填一个即可。
 host = "172.16.31.1"
@@ -365,10 +379,12 @@ build-stats-concurrency = 20
 distsql-scan-concurrency = 15
 index-serial-scan-concurrency = 20
 checksum-table-concurrency = 2
+```
 
+```toml
 # 设置其他 TiDB 会话变量
-# [tidb.session-vars]
-# tidb_enable_clustered_index = "OFF"
+[tidb.session-vars]
+tidb_enable_clustered_index = "OFF"
 
 # 解析和执行 SQL 语句的默认 SQL 模式。
 sql-mode = "ONLY_FULL_GROUP_BY,NO_AUTO_CREATE_USER"
@@ -383,17 +399,19 @@ max-allowed-packet = 67_108_864
 #  * "cluster"     - 强制使用 TLS 并使用 [tidb.security] 部分中指定的 CA 验证服务器的证书
 #  * "skip-verify" - 强制使用 TLS，但不验证服务器的证书（不安全！）
 #  * "preferred"   - 与 "skip-verify" 相同，但是如果服务器不支持 TLS，则会退回到未加密的连接
-# tls = ""
+tls = ""
 # 指定证书和密钥用于 TLS 连接 MySQL。
 # 默认为 [security] 部分的副本。
-# [tidb.security]
+[tidb.security]
 # CA 的公钥证书。设置为空字符串可禁用 SQL 的 TLS。
-# ca-path = "/path/to/ca.pem"
+ca-path = "/path/to/ca.pem"
 # 该服务的公钥证书。默认为 `security.cert-path` 的副本
-# cert-path = "/path/to/lightning.pem"
+cert-path = "/path/to/lightning.pem"
 # 此服务的私钥。默认为 `security.key-path` 的副本
-# key-path = "/path/to/lightning.key"
+key-path = "/path/to/lightning.key"
+```
 
+```toml
 # 对于物理导入模式，数据导入完成后，TiDB Lightning 可以自动执行 Checksum 和 Analyze 操作。
 # 在生产环境中，建议总是开启 Checksum 和 Analyze。
 # 执行的顺序为：Checksum -> Analyze。
@@ -418,7 +436,9 @@ checksum-via-sql = "false"
 # 配置是否在 CHECKSUM 结束后对所有表逐个执行 `ANALYZE TABLE <table>` 操作。
 # 此配置的可选配置项与 `checksum` 相同，但默认值为 "optional"。
 analyze = "optional"
+```
 
+```toml
 # 设置周期性后台操作。
 # 支持的单位：h（时）、m（分）、s（秒）。
 [cron]
@@ -428,5 +448,5 @@ switch-mode = "5m"
 log-progress = "5m"
 
 # 使用物理导入模式时，检查本地磁盘配额的时间间隔，默认为 60 秒。
-# check-disk-quota = "60s"
+check-disk-quota = "60s"
 ```
