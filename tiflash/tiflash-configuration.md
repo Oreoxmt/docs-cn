@@ -41,7 +41,7 @@ summary: TiFlash 配置参数包括 PD 调度参数和 TiFlash 配置参数。PD
 listen_host = "0.0.0.0"
 ## TiFlash TCP 服务的端口。TCP 服务为内部测试接口，默认使用 9000 端口。在 TiFlash v7.1.0 之前的版本中，该端口默认开启，但存在安全风险。为了提高安全性，建议对该端口进行访问控制，只允许白名单 IP 访问。从 TiFlash v7.1.0 起，可以通过注释掉该端口的配置避免安全风险。当 TiFlash 配置文件未声明该端口时，该端口也不会开启。
 ## 建议在任何 TiFlash 的部署中都不配置该端口。(注: 从 TiFlash v7.1.0 起，由 TiUP >= v1.12.5 或 TiDB Operator >= v1.5.0 部署的 TiFlash 默认为安全版本，即默认未开启该端口)
-# tcp_port = 9000
+tcp_port = 9000
 ## 数据块元信息的内存 cache 大小限制，通常不需要修改
 mark_cache_size = 1073741824
 ## 数据块 min-max 索引的内存 cache 大小限制，通常不需要修改
@@ -55,13 +55,15 @@ delta_index_cache_size = 0
 ## 当 [storage] 配置项存在的情况下，path 和 path_realtime_mode 两个配置会被忽略。
 # path = "/tidb-data/tiflash-9000"
 ## 或
-# path = "/ssd0/tidb-data/tiflash,/ssd1/tidb-data/tiflash,/ssd2/tidb-data/tiflash"
+path = "/ssd0/tidb-data/tiflash,/ssd1/tidb-data/tiflash,/ssd2/tidb-data/tiflash"
 ## 默认为 false。如果设为 true，且 path 配置了多个目录，表示在第一个目录存放最新数据，在其他目录存放较旧的数据。
-# path_realtime_mode = false
+path_realtime_mode = false
 
 ## TiFlash 临时文件的存放路径。默认使用 [`path` 或者 `storage.latest.dir` 的第一个目录] + "/tmp"
-# tmp_path = "/tidb-data/tiflash-9000/tmp"
+tmp_path = "/tidb-data/tiflash-9000/tmp"
+```
 
+```toml
 ## 存储路径相关配置，从 v4.0.9 开始生效
 [storage]
 
@@ -72,7 +74,7 @@ delta_index_cache_size = 0
     ## * format_version = 5 v7.4.0 ~ v8.3.0 的默认文件格式（从 v7.3.0 开始引入），该格式可以合并小文件从而减少了物理文件数量。
     ## * format_version = 6 从 v8.4.0 开始引入，部分支持了向量索引的构建与存储。
     ## * format_version = 7 v8.4.0 及以后版本的默认文件格式 (从 v8.4.0 开始引入)，该格式用于支持向量索引的构建与存储。
-    # format_version = 7
+    format_version = 7
 
     [storage.main]
     ## 用于存储主要的数据，该目录列表中的数据占总数据的 90% 以上。
@@ -85,51 +87,53 @@ delta_index_cache_size = 0
     ## * 以 byte 为单位。目前不支持如 "10GB" 的设置
     ## * capacity 列表的长度应当与 dir 列表长度保持一致
     ## 例如：
-    # capacity = [ 10737418240, 10737418240 ]
+    capacity = [ 10737418240, 10737418240 ]
 
     [storage.latest]
     ## 用于存储最新的数据，大约占总数据量的 10% 以内，需要较高的 IOPS。
     ## 默认情况该项可留空。在未配置或者为空列表的情况下，会使用 storage.main.dir 的值。
-    # dir = [ ]
+    dir = [ ]
     ## storage.latest.dir 存储目录列表中，每个目录的最大可用容量。
-    # capacity = [ 10737418240, 10737418240 ]
+    capacity = [ 10737418240, 10737418240 ]
 
     ## [storage.io_rate_limit] 相关配置从 v5.2.0 开始引入。
     [storage.io_rate_limit]
     ## 该配置项是 I/O 限流功能的开关，默认关闭。TiFlash 的 I/O 限流功能适用于磁盘带宽较小且磁盘带宽大小明确的云盘场景。
     ## I/O 限流功能限制下的读写流量总带宽，单位为 Byte，默认值为 0，即默认关闭 I/O 限流功能。
-    # max_bytes_per_sec = 0
+    max_bytes_per_sec = 0
     ## max_read_bytes_per_sec 和 max_write_bytes_per_sec 的含义和 max_bytes_per_sec 类似，分别指 I/O 限流功能限制下的读流量总带宽和写流量总带宽。
     ## 分别用两个配置项控制读写带宽限制，适用于一些读写带宽限制分开计算的云盘，例如 Google Cloud 上的 persistent disk。
     ## 当 max_bytes_per_sec 配置不为 0 时，优先使用 max_bytes_per_sec。
-    # max_read_bytes_per_sec = 0
-    # max_write_bytes_per_sec = 0
+    max_read_bytes_per_sec = 0
+    max_write_bytes_per_sec = 0
 
     ## 下面的参数用于控制不同 I/O 流量类型分配到的带宽权重，一般不需要调整。
     ## TiFlash 内部将 I/O 请求分成 4 种类型：前台写、后台写、前台读、后台读。
     ## I/O 限流初始化时，TiFlash 会根据下面的权重 (weight) 比例分配带宽。
     ## 以下默认配置表示每一种流量将获得 25 / (25 + 25 + 25 + 25) = 25% 的权重。
     ## 如果将 weight 配置为 0，则对应的 I/O 操作不会被限流。
-    # foreground_write_weight = 25
-    # background_write_weight = 25
-    # foreground_read_weight = 25
-    # background_read_weight = 25
+    foreground_write_weight = 25
+    background_write_weight = 25
+    foreground_read_weight = 25
+    background_read_weight = 25
     ## TiFlash 支持根据当前的 I/O 负载情况自动调整各种 I/O 类型的限流带宽，有可能会超过设置的权重。
     ## auto_tune_sec 表示自动调整的执行间隔，单位为秒。设为 0 表示关闭自动调整。
-    # auto_tune_sec = 5
+    auto_tune_sec = 5
 
     ## 下面的配置只针对存算分离模式生效，详细请参考 TiFlash 存算分离架构与 S3 支持文档 https://docs.pingcap.com/zh/tidb/dev/tiflash-disaggregated-and-s3
-    # [storage.s3]
-    # endpoint: http://s3.{region}.amazonaws.com # S3 的 endpoint 地址
-    # bucket: mybucket                           # TiFlash 的所有数据存储在这个 bucket 中
-    # root: /cluster1_data                       # S3 bucket 中存储数据的根目录
-    # access_key_id: {ACCESS_KEY_ID}             # 访问 S3 的 ACCESS_KEY_ID
-    # secret_access_key: {SECRET_ACCESS_KEY}     # 访问 S3 的 SECRET_ACCESS_KEY
+    [storage.s3]
+    endpoint: http://s3.{region}.amazonaws.com # S3 的 endpoint 地址
+    bucket: mybucket                           # TiFlash 的所有数据存储在这个 bucket 中
+    root: /cluster1_data                       # S3 bucket 中存储数据的根目录
+    access_key_id: {ACCESS_KEY_ID}             # 访问 S3 的 ACCESS_KEY_ID
+    secret_access_key: {SECRET_ACCESS_KEY}     # 访问 S3 的 SECRET_ACCESS_KEY
 
-    # [storage.remote.cache]
-    # dir: /data1/tiflash/cache        # TiFlash Compute Node 的本地数据缓存目录
-    # capacity: 858993459200           # 800 GiB
+    [storage.remote.cache]
+    dir: /data1/tiflash/cache        # TiFlash Compute Node 的本地数据缓存目录
+    capacity: 858993459200           # 800 GiB
+```
 
+```toml
 [flash]
     ## TiFlash coprocessor 服务监听地址
     service_addr = "0.0.0.0:3930"
@@ -137,14 +141,14 @@ delta_index_cache_size = 0
     ## 从 v7.4.0 引入，在当前 Raft 状态机推进的 applied_index 和上次落盘时的 applied_index 的差值高于 compact_log_min_gap 时，
     ## TiFlash 将执行来自 TiKV 的 CompactLog 命令，并进行数据落盘。调大该差值可能降低 TiFlash 的落盘频率，从而减少随机写场景下的读延迟，但会增大内存开销。调小该差值可能提升 TiFlash 的落盘频率，从而缓解 TiFlash 内存压力。但无论如何，在目前阶段，TiFlash 的落盘频率不会高于 TiKV，即使设置该差值为 0。
     ## 建议保持默认值。
-    # compact_log_min_gap = 200
+    compact_log_min_gap = 200
     ## 从 v5.0 引入，当 TiFlash 缓存的 Region 行数或者大小超过以下任一阈值时，TiFlash 将执行来自 TiKV 的 CompactLog 命令，并进行落盘。
     ## 建议保持默认值。
-    # compact_log_min_rows = 40960 # 40k
-    # compact_log_min_bytes = 33554432 # 32MB
+    compact_log_min_rows = 40960 # 40k
+    compact_log_min_bytes = 33554432 # 32MB
 
     ## 下面的配置只针对存算分离模式生效，详情请参考 TiFlash 存算分离架构与 S3 支持文档 https://docs.pingcap.com/zh/tidb/dev/tiflash-disaggregated-and-s3
-    # disaggregated_mode = tiflash_write # 可选值为 tiflash_write 或者 tiflash_compute
+    disaggregated_mode = tiflash_write # 可选值为 tiflash_write 或者 tiflash_compute
 
 [flash.proxy]
     ## proxy 监听地址，不填则默认是 127.0.0.1:20170
@@ -165,7 +169,9 @@ delta_index_cache_size = 0
     config = "/tidb-deploy/tiflash-9000/conf/tiflash-learner.toml"
     ## proxy log 路径
     log-file = "/tidb-deploy/tiflash-9000/log/tiflash_tikv.log"
+```
 
+```toml
 [logger]
     ## 注意，以下参数只对 tiflash.log、tiflash_error.log 生效。TiFlash Proxy 的日志参数配置需要在 tiflash-learner.toml 中指定。
 
@@ -179,7 +185,9 @@ delta_index_cache_size = 0
     size = "100M"
     ## 最多保留日志文件个数，默认是 10。对于 TiFlash 日志和 TiFlash 错误日志各自最多保留 `count` 个日志文件。
     count = 10
+```
 
+```toml
 [raft]
     ## PD 服务地址. 多个地址以逗号隔开
     pd_addr = "10.0.1.11:2379,10.0.1.12:2379,10.0.1.13:2379"
@@ -187,13 +195,15 @@ delta_index_cache_size = 0
 [status]
     ## Prometheus 拉取 metrics 信息的端口，默认是 8234
     metrics_port = 8234
+```
 
+```toml
 [profiles]
 
 [profiles.default]
     ## 存储引擎的 segment 分裂是否使用逻辑分裂。使用逻辑分裂可以减小写放大，但是会造成一定程度的硬盘空间回收不及时。默认为 false。
     ## 在 v6.2.0 以及后续版本，强烈建议保留默认值 `false`，不要将其修改为 `true`。具体请参考已知问题 [#5576](https://github.com/pingcap/tiflash/issues/5576)。
-    # dt_enable_logical_split = false
+    dt_enable_logical_split = false
 
     ## `max_threads` 指的是执行一个 MMP Task 的内部线程并发度，默认值为 0。当值为 0 时，TiFlash 执行 MMP Task 的线程并发度为 CPU 核数。
     ## 该参数只有在系统变量 `tidb_max_tiflash_threads` 设置为 -1 时才会生效。
@@ -224,7 +234,7 @@ delta_index_cache_size = 0
     manual_compact_pool_size = 1
 
     ## 从 v5.4.0 引入，表示是否启用弹性线程池，这项功能可以显著提高 TiFlash 在高并发场景的 CPU 利用率。默认为 true。
-    # enable_elastic_threadpool = true
+    enable_elastic_threadpool = true
 
     ## TiFlash 存储引擎的压缩算法，支持 LZ4、zstd 和 LZ4HC，大小写不敏感。默认使用 LZ4 算法。
     dt_compression_method = "LZ4"
@@ -258,7 +268,9 @@ delta_index_cache_size = 0
 
     ## 从 v6.4.0 引入，用于 MinTSO 调度器，表示一个 TiFlash 实例中最多可同时运行的查询数量，默认值为 0，即两倍的 vCPU 数量。关于 MinTSO 调度器，详见 https://docs.pingcap.com/zh/tidb/dev/tiflash-mintso-scheduler
     task_scheduler_active_set_soft_limit = 0
+```
 
+```toml
 ## 安全相关配置，从 v4.0.5 开始生效
 [security]
     ## 从 v5.0 引入，控制是否开启日志脱敏。可选值为 `true`、`false`、`"on"`、`"off"` 和 `"marker"`。其中，`"on"`、`"off"` 和 `"marker"` 从 v8.2.0 开始支持。
@@ -267,14 +279,14 @@ delta_index_cache_size = 0
     ## 若设置为 `"marker"`，日志中的用户数据会被标记符号 `‹ ›` 包裹。用户数据中的 `‹` 会转义成 `‹‹`，`›` 会转义成 `››`。基于标记后的日志，你可以在展示日志时决定是否对被标记信息进行脱敏处理。
     ## 默认值为 `false`。
     ## 注意，tiflash-learner 对应的安全配置选项为 `security.redact-info-log`，需要在 tiflash-learner.toml 中另外设置。
-    # redact_info_log = false
+    redact_info_log = false
 
     ## 包含可信 SSL CA 列表的文件路径。如果你设置了该值，`cert_path` 和 `key_path` 中的路径也需要填写
-    # ca_path = "/path/to/ca.pem"
+    ca_path = "/path/to/ca.pem"
     ## 包含 PEM 格式的 X509 certificate 文件路径
-    # cert_path = "/path/to/tiflash-server.pem"
+    cert_path = "/path/to/tiflash-server.pem"
     ## 包含 PEM 格式的 X509 key 文件路径
-    # key_path = "/path/to/tiflash-server-key.pem"
+    key_path = "/path/to/tiflash-server-key.pem"
 ```
 
 ### 配置文件 tiflash-learner.toml
@@ -298,7 +310,9 @@ delta_index_cache_size = 0
     ## 如果未设置本参数或把此参数设置为默认值 `0`，TiFlash Proxy 会保存所有的日志文件。
     ## 如果把此参数设置为非 `0` 的值，在 `max-days` 之后，TiFlash Proxy 会清理过期的日志文件。
     max-days = 0
+```
 
+```toml
 [raftstore]
     ## 处理 Raft 数据落盘的线程池中线程的数量
     apply-pool-size = 4
@@ -307,14 +321,16 @@ delta_index_cache_size = 0
     ## 控制处理 snapshot 的线程数，默认为 2。设为 0 则关闭多线程优化
     ## TiFlash Proxy 特有参数，从 v4.0.0 版本开始引入。
     snap-handle-pool-size = 2
+```
 
+```toml
 [security]
     ## 从 v5.0 引入，控制是否开启日志脱敏。可选值为 `true`、`false`、`"on"`、`"off"` 和 `"marker"`。其中，`"on"`、`"off"` 和 `"marker"` 从 v8.3.0 开始支持。
     ## 若设置为 `false` 或 `"off"`，即对用户日志不做处理。
     ## 若设置为 `true` 或 "on"，日志中的用户数据会以 `?` 代替显示。
     ## 若设置为 `"marker"`，日志中的用户数据会被标记符号 `‹ ›` 包裹。用户数据中的 `‹` 会转义成 `‹‹`，`›` 会转义成 `››`。基于标记后的日志，你可以在展示日志时决定是否对被标记信息进行脱敏处理。
     ## 默认值为 `false`。
-    # redact-info-log = false
+    redact-info-log = false
 
 [security.encryption]
     ## 数据文件的加密方法。
